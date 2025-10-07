@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { AuthProvider, useAuth } from '../src/shared/providers/AuthProvider';
+import { ThemeProvider as CustomThemeProvider } from '../src/shared/providers/ThemeProvider';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/src/design/useColorScheme';
 import { View, ActivityIndicator, StatusBar } from 'react-native';
@@ -19,16 +20,15 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    InterThin: require('../assets/fonts/Inter-Thin.ttf'),
-    InterExtraLight: require('../assets/fonts/Inter-ExtraLight.ttf'),
-    InterLight: require('../assets/fonts/Inter-Light.ttf'),
-    InterRegular: require('../assets/fonts/Inter-Regular.ttf'),
-    InterMedium: require('../assets/fonts/Inter-Medium.ttf'),
-    InterSemiBold: require('../assets/fonts/Inter-SemiBold.ttf'),
-    InterBold: require('../assets/fonts/Inter-Bold.ttf'),
-    InterExtraBold: require('../assets/fonts/Inter-ExtraBold.ttf'),
-    InterBlack: require('../assets/fonts/Inter-Black.ttf'),
+    PoppinsThin: require('../assets/fonts/Poppins-Thin.ttf'),
+    PoppinsExtraLight: require('../assets/fonts/Poppins-ExtraLight.ttf'),
+    PoppinsLight: require('../assets/fonts/Poppins-Light.ttf'),
+    PoppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
+    PoppinsMedium: require('../assets/fonts/Poppins-Medium.ttf'),
+    PoppinsSemiBold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+    PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
+    PoppinsExtraBold: require('../assets/fonts/Poppins-ExtraBold.ttf'),
+    PoppinsBlack: require('../assets/fonts/Poppins-Black.ttf'),
     ...FontAwesome.font,
   });
 
@@ -48,8 +48,10 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <StatusBar backgroundColor={'#000'} />
-      <RootLayoutNav />
+      <CustomThemeProvider>
+        <StatusBar backgroundColor={'#000'} />
+        <RootLayoutNav />
+      </CustomThemeProvider>
     </AuthProvider>
   );
 }
@@ -72,7 +74,7 @@ function RootLayoutNav() {
   } */
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DarkTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
       </Stack>
