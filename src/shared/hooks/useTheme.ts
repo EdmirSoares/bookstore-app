@@ -1,27 +1,88 @@
 import { useThemeStore } from '../stores/themeStore';
-import { useColorScheme } from 'nativewind';
 import Colors from '@/src/design/tokens/Colors';
+import { StyleSheet } from 'react-native';
 
 /**
- * Hook para acessar e gerenciar o tema do aplicativo
- * Integrado com NativeWind para suporte automático a dark mode
+ * Hook para acessar e gerenciar o tema do aplicativo usando StyleSheet
  * @returns Objeto com estado do tema e funções para gerenciá-lo
  */
 export const useTheme = () => {
-  const { colorScheme, setColorScheme } = useColorScheme();
   const { colorMode, currentTheme, setColorMode, toggleTheme, initializeTheme } = useThemeStore();
 
+  // Get current theme colors
   const colors = Colors[currentTheme];
 
-  const setThemeMode = (mode: typeof colorMode) => {
-    setColorMode(mode);
-  };
-
-  const enhancedToggleTheme = () => {
-    toggleTheme();
-  };
+  // Create common style utilities
+  const createStyles = StyleSheet.create({
+    // Layout styles
+    flexRow: {
+      flexDirection: 'row',
+    },
+    flexColumn: {
+      flexDirection: 'column',
+    },
+    flex1: {
+      flex: 1,
+    },
+    centerContent: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    spaceBetween: {
+      justifyContent: 'space-between',
+    },
+    spaceAround: {
+      justifyContent: 'space-around',
+    },
+    alignCenter: {
+      alignItems: 'center',
+    },
+    
+    // Background styles
+    backgroundPrimary: {
+      backgroundColor: colors.background,
+    },
+    backgroundSurface: {
+      backgroundColor: colors.surfaceText,
+    },
+    backgroundTabBar: {
+      backgroundColor: colors.tabBarBackground,
+    },
+    
+    // Text styles
+    textPrimary: {
+      color: colors.text,
+    },
+    textSurface: {
+      color: colors.surfaceText,
+    },
+    textTint: {
+      color: colors.tint,
+    },
+    
+    // Common spacing
+    padding4: { padding: 4 },
+    padding8: { padding: 8 },
+    padding12: { padding: 12 },
+    padding16: { padding: 16 },
+    padding20: { padding: 20 },
+    
+    margin4: { margin: 4 },
+    margin8: { margin: 8 },
+    margin12: { margin: 12 },
+    margin16: { margin: 16 },
+    margin20: { margin: 20 },
+    
+    // Border radius
+    rounded4: { borderRadius: 4 },
+    rounded8: { borderRadius: 8 },
+    rounded12: { borderRadius: 12 },
+    rounded16: { borderRadius: 16 },
+    rounded20: { borderRadius: 20 },
+  });
 
   return {
+    // Estado atual
     colorMode,
     currentTheme,
     colors,
@@ -29,15 +90,24 @@ export const useTheme = () => {
     isLight: currentTheme === 'light',
     isSystemMode: colorMode === 'system',
     
-    nativeWindColorScheme: colorScheme,
+    // Style utilities
+    styles: createStyles,
     
-    setColorMode: setThemeMode,
-    toggleTheme: enhancedToggleTheme,
+    // Ações
+    setColorMode,
+    toggleTheme,
     initializeTheme,
     
-    setLightMode: () => setThemeMode('light'),
-    setDarkMode: () => setThemeMode('dark'),
-    setSystemMode: () => setThemeMode('system'),
+    // Funções de conveniência
+    setLightMode: () => setColorMode('light'),
+    setDarkMode: () => setColorMode('dark'),
+    setSystemMode: () => setColorMode('system'),
+    
+    // Helper functions to create dynamic styles
+    createThemedStyle: (lightStyle: any, darkStyle: any) => 
+      currentTheme === 'light' ? lightStyle : darkStyle,
+    
+    getColor: (colorKey: keyof typeof Colors.light) => colors[colorKey],
   };
 };
 
