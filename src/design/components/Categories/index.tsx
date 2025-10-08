@@ -1,5 +1,5 @@
-import {StyleSheet, FlatList } from 'react-native';
-import React from 'react';
+import { StyleSheet, FlatList, View } from 'react-native';
+import React, { useMemo } from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
 import { HStack } from '../common/HStack';
 import { Text } from '../common/Text/Text';
@@ -11,37 +11,41 @@ const Categories = () => {
     const { colors, currentTheme, toggleTheme, styles: createStyles } = useTheme();
     const { categories, changeCategory, selectedCategory } = useCategories();
 
-    const styles = StyleSheet.create({
-        container: {
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: createStyles.padding16.padding,
-            paddingVertical: createStyles.padding20.padding,
-        },
-        content: {
-            gap: createStyles.margin8.margin,
-        },
-        text: {
-            fontSize: 14,
-            fontFamily: 'PoppinsMedium',
-            letterSpacing: 0.4,
-        },
-        descriptionText: {
-            fontSize: 12,
-            fontFamily: 'PoppinsMedium',
-            letterSpacing: 0.2,
-            lineHeight: 18,
-        },
-        TouchableOpacity: {
-            paddingVertical: createStyles.padding6.padding,
-            width: 75,
-            borderRadius: 999,
-            backgroundColor: colors.primary['400'],
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 1,
-        },
-    });
+    const styles = useMemo(
+        () =>
+            StyleSheet.create({
+                container: {
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingLeft: createStyles.padding16.padding,
+                    paddingVertical: createStyles.padding20.padding,
+                },
+                content: {
+                    gap: createStyles.margin8.margin,
+                },
+                text: {
+                    fontSize: 14,
+                    fontFamily: 'PoppinsMedium',
+                    letterSpacing: 0.4,
+                },
+                descriptionText: {
+                    fontSize: 12,
+                    fontFamily: 'PoppinsMedium',
+                    letterSpacing: 0.2,
+                    lineHeight: 18,
+                },
+                TouchableOpacity: {
+                    paddingVertical: createStyles.padding6.padding,
+                    width: 75,
+                    borderRadius: 999,
+                    backgroundColor: colors.primary['400'],
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderWidth: 1,
+                },
+            }),
+        [colors, createStyles]
+    );
 
     return (
         <HStack style={styles.container}>
@@ -53,7 +57,7 @@ const Categories = () => {
                     showsHorizontalScrollIndicator={false}
                     alwaysBounceHorizontal={false}
                     bounces={false}
-                    overScrollMode="never" 
+                    overScrollMode="never"
                     snapToAlignment="start"
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
@@ -76,7 +80,8 @@ const Categories = () => {
                             <Text style={styles.descriptionText}>{item.name}</Text>
                         </TouchableOpacity>
                     )}
-                    contentContainerStyle={{ gap: 10 }}
+                    ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+                    contentContainerStyle={{ paddingRight: createStyles.margin16.margin }}
                 />
             </VStack>
         </HStack>

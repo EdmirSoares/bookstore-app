@@ -1,5 +1,6 @@
 import { View, StyleSheet, FlatList } from 'react-native';
-import React from 'react';
+import { router, Href } from 'expo-router';
+import React, { useMemo } from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
 import { HStack } from '../common/HStack';
 import { VStack } from '../common/VStack';
@@ -9,60 +10,63 @@ import usePreviewTopicsList, { PreviewTopicsItem } from './usePreviewTopicsList'
 import CheckIcon from '@/src/design/assets/common/icons/check-icon.svg';
 import BlockIcon from '@/src/design/assets/common/icons/block-icon.svg';
 import ArrowRounded from '@/src/design/assets/common/icons/arrow-rounded.svg';
-import { create } from 'zustand';
 
 const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
     const { colors, styles: createStyles } = useTheme();
 
-    const styles = StyleSheet.create({
-        TouchableOpacity: {
-            width: 128,
-            height: 256,
-            justifyContent: 'center',
-            flex: 1,
-        },
-        container: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: colors.backgroundForeground + '50',
-            ...createStyles.rounded8,
-            height: 184,
-            flex: 1,
-        },
-        titleAbbreviation: {
-            fontSize: 32,
-            fontFamily: 'PoppinsMedium',
-            letterSpacing: 0.2,
-            textAlign: 'center',
-        },
-        title: {
-            fontSize: 12,
-            fontFamily: 'PoppinsMedium',
-            letterSpacing: 0.2,
-            lineHeight: 16,
-            textAlign: 'left',
-            marginTop: createStyles.margin6.margin,
-            marginBottom: createStyles.margin2.margin,
-        },
-        authorTitle: {
-            fontSize: 10,
-            fontFamily: 'PoppinsLight',
-            letterSpacing: 0.2,
-            lineHeight: 18,
-            textAlign: 'left',
-        },
-        statusTag: {
-            marginTop: createStyles.margin8.margin,
-            flexDirection: 'row',
-            alignItems: 'flex-start',
-            gap: 8,
-        },
-        statusTagText: {
-            fontSize: 10,
-            fontFamily: 'PoppinsLight',
-            color: colors.neutral['100'],
-        },
-    });
+    const styles = useMemo(
+        () =>
+            StyleSheet.create({
+                TouchableOpacity: {
+                    width: 128,
+                    height: 256,
+                    justifyContent: 'center',
+                    flex: 1,
+                },
+                container: {
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colors.backgroundForeground + '50',
+                    ...createStyles.rounded8,
+                    height: 184,
+                    flex: 1,
+                },
+                titleAbbreviation: {
+                    fontSize: 32,
+                    fontFamily: 'PoppinsMedium',
+                    letterSpacing: 0.2,
+                    textAlign: 'center',
+                },
+                title: {
+                    fontSize: 12,
+                    fontFamily: 'PoppinsMedium',
+                    letterSpacing: 0.2,
+                    lineHeight: 16,
+                    textAlign: 'left',
+                    marginTop: createStyles.margin6.margin,
+                    marginBottom: createStyles.margin2.margin,
+                },
+                authorTitle: {
+                    fontSize: 10,
+                    fontFamily: 'PoppinsLight',
+                    letterSpacing: 0.2,
+                    lineHeight: 18,
+                    textAlign: 'left',
+                },
+                statusTag: {
+                    marginTop: createStyles.margin8.margin,
+                    flexDirection: 'row',
+                    alignItems: 'flex-start',
+                    gap: 8,
+                },
+                statusTagText: {
+                    fontSize: 10,
+                    fontFamily: 'PoppinsLight',
+                    color: colors.neutral['100'],
+                },
+            }),
+        [colors, createStyles]
+    );
 
     const StatusTag = () => (
         <View style={styles.statusTag}>
@@ -97,63 +101,79 @@ const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
     );
 };
 
-const PreviewTopicList = () => {
+const PreviewTopicList = ({
+    title,
+    orderBy,
+    navigateTo,
+}: {
+    title: string;
+    orderBy: 'last' | 'available' | 'unavailable';
+    navigateTo: string;
+}) => {
     const { colors, styles: createStyles } = useTheme();
-    const { mockedData } = usePreviewTopicsList();
+    const { filteredData } = usePreviewTopicsList({ orderBy });
 
-    const styles = StyleSheet.create({
-        container: {
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: createStyles.padding16.padding,
-        },
-        content: {
-            gap: createStyles.margin8.margin,
-        },
-        header: {
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-        },
-        headerText: {
-            color: colors.primary['400'],
-            fontFamily: 'PoppinsBold',
-            fontSize: 12,
-        },
-        text: {
-            fontSize: 20,
-            fontFamily: 'PoppinsBold',
-            letterSpacing: 0.4,
-        },
-        descriptionText: {
-            fontSize: 12,
-            fontFamily: 'PoppinsMedium',
-            letterSpacing: 0.2,
-            lineHeight: 18,
-        },
-        TouchableOpacity: {
-            paddingVertical: createStyles.padding6.padding,
-            width: 75,
-            borderRadius: 999,
-            backgroundColor: colors.primary['400'],
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 1,
-        },
-    });
+    const styles = useMemo(
+        () =>
+            StyleSheet.create({
+                container: {
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingHorizontal: createStyles.padding16.padding,
+                },
+                content: {
+                    gap: createStyles.margin8.margin,
+                },
+                header: {
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                },
+                headerText: {
+                    color: colors.primary['400'],
+                    fontFamily: 'PoppinsBold',
+                    fontSize: 12,
+                },
+                text: {
+                    fontSize: 20,
+                    fontFamily: 'PoppinsBold',
+                    letterSpacing: 0.4,
+                },
+                descriptionText: {
+                    fontSize: 12,
+                    fontFamily: 'PoppinsMedium',
+                    letterSpacing: 0.2,
+                    lineHeight: 18,
+                },
+                TouchableOpacity: {
+                    paddingVertical: createStyles.padding6.padding,
+                    width: 75,
+                    borderRadius: 999,
+                    backgroundColor: colors.primary['400'],
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderWidth: 1,
+                },
+            }),
+        [colors, createStyles]
+    );
 
     return (
         <HStack style={styles.container}>
             <VStack style={styles.content}>
                 <HStack style={styles.header}>
-                    <Text style={styles.text}>Últimas</Text>
-                    <HStack style={{ gap: 4 }}>
-                        <Text style={styles.headerText}>Ver Todos</Text>
-                        <ArrowRounded />
+                    <Text style={styles.text}>{title}</Text>
+                    <HStack>
+                        <TouchableOpacity
+                            onPress={() => router.push(navigateTo as any)}
+                            style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                            <Text style={styles.headerText}>Ver Todos</Text>
+                            <ArrowRounded />
+                        </TouchableOpacity>
                     </HStack>
                 </HStack>
                 <FlatList
-                    data={mockedData}
+                    data={filteredData}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     alwaysBounceHorizontal={false}

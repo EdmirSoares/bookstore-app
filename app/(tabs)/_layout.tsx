@@ -63,6 +63,14 @@ export default function TabLayout() {
             />
 
             <Tabs.Screen
+                name="Categories/index"
+                options={{
+                    title: 'Categorias',
+                    tabBarIcon: ({ color }) => <BooksIcon width={20} height={20} fill={color} />,
+                }}
+            />
+
+            <Tabs.Screen
                 name="Users/index"
                 options={{
                     title: 'Usuários',
