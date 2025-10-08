@@ -62,6 +62,7 @@ export const useTheme = () => {
     
     // Common spacing
     padding4: { padding: 4 },
+    padding6: { padding: 6 },
     padding8: { padding: 8 },
     padding12: { padding: 12 },
     padding16: { padding: 16 },

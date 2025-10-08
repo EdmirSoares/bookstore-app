@@ -1,12 +1,15 @@
-import { View, Text } from 'react-native';
 import React from 'react';
+import Header from '@/src/design/components/Header';
+import { Container } from '@/src/design/components/Container/Container';
+import Categories from '@/src/design/components/Categories';
 
 const Home = () => {
-  return (
-    <View className='flex-1 justify-center items-center bg-black'>
-      <Text className='text-white'>Home</Text>
-    </View>
-  );
+    return (
+        <Container>
+            <Header user={{ name: 'User' }} />
+            <Categories />
+        </Container>
+    );
 };
 
 export default Home;

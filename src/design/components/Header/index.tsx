@@ -1,10 +1,10 @@
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import { HStack } from '../HStack';
+import { HStack } from '../common/HStack';
 import Feather from '@expo/vector-icons/Feather';
-import { TouchableOpacity } from '../TouchableOpacity/TouchableOpacity';
+import { TouchableOpacity } from '../common/TouchableOpacity/TouchableOpacity';
 import { useTheme } from '@/src/shared/hooks/useTheme';
-import { Text } from '../Text/Text';
+import { Text } from '../common/Text/Text';
 const Header = ({ user }: { user: { name: string } }) => {
     const { colors, currentTheme, toggleTheme, styles:createStyles } = useTheme();
 
@@ -18,8 +18,7 @@ const Header = ({ user }: { user: { name: string } }) => {
         text: {
             textAlign: 'center',
             fontSize: 24,
-            fontWeight: 'bold',
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'PoppinsBold',
         },
         TouchableOpacity: {
             padding: createStyles.padding12.padding,
