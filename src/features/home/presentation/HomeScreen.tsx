@@ -14,13 +14,13 @@ const Home = () => {
             showsVerticalScrollIndicator={false}
             snapToAlignment='start'
             decelerationRate='fast'
-            contentContainerStyle={{ gap: 24 }}
+            contentContainerStyle={{ gap: 24, paddingBottom: 24 }}
             bounces={false}
             overScrollMode='never'
             >
-                <PreviewTopicList title="Últimos" orderBy="last" navigateTo='/(tabs)/Books/index' />
-                <PreviewTopicList title="Disponíveis" orderBy="available" navigateTo='/categories' />
-                <PreviewTopicList title="Emprestados" orderBy="unavailable" navigateTo='/details' />
+                <PreviewTopicList title="Últimos" orderBy="last" navigateTo='/(tabs)/Categories/index' />
+                <PreviewTopicList title="Disponíveis" orderBy="available" navigateTo='/(tabs)/Categories/index' />
+                <PreviewTopicList title="Emprestados" orderBy="unavailable" navigateTo='/(tabs)/Categories/index' />
             </ScrollView>
         </Container>
     );
