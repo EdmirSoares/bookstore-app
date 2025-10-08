@@ -68,7 +68,9 @@ export const useTheme = () => {
     padding16: { padding: 16 },
     padding20: { padding: 20 },
     
+    margin2: { margin: 2 },
     margin4: { margin: 4 },
+    margin6: { margin: 6 },
     margin8: { margin: 8 },
     margin12: { margin: 12 },
     margin16: { margin: 16 },

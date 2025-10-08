@@ -1,9 +1,9 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import {StyleSheet, FlatList } from 'react-native';
 import React from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
 import { HStack } from '../common/HStack';
 import { Text } from '../common/Text/Text';
-import { VStack } from '../VStack';
+import { VStack } from '../common/VStack';
 import useCategories from './useCategories';
 import { TouchableOpacity } from '../common/TouchableOpacity/TouchableOpacity';
 
@@ -28,8 +28,9 @@ const Categories = () => {
         },
         descriptionText: {
             fontSize: 12,
-            fontFamily: 'PoppinsMMedium',
+            fontFamily: 'PoppinsMedium',
             letterSpacing: 0.2,
+            lineHeight: 18,
         },
         TouchableOpacity: {
             paddingVertical: createStyles.padding6.padding,
