@@ -26,14 +26,17 @@ const CategoriesHook = () => {
         }
     }, []);
 
-    const postBook = useCallback(async (newBook: Omit<Book, 'id'>) => {
+    const createBook = useCallback(async (newBook: Omit<Book, 'id'>) => {
         try {
             setLoading(true);
             setError(null);
             const createdBook = await getBooksUseCase.create(newBook);
             setBooks((prevBooks) => [...prevBooks, createdBook]);
+            return createdBook;
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to create book');
+            const errorMessage = err instanceof Error ? err.message : 'Failed to create book';
+            setError(errorMessage);
+            throw err; 
         } finally {
             setLoading(false);
         }
@@ -47,8 +50,11 @@ const CategoriesHook = () => {
             setBooks((prevBooks) =>
                 prevBooks.map((book) => (book.id.toString() === id ? updatedBook : book))
             );
+            return updatedBook;
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to update book');
+            const errorMessage = err instanceof Error ? err.message : 'Failed to update book';
+            setError(errorMessage);
+            throw err; // Re-throw the error so it bubbles up
         } finally {
             setLoading(false);
         }
@@ -61,7 +67,9 @@ const CategoriesHook = () => {
             await getBooksUseCase.delete(id);
             setBooks((prevBooks) => prevBooks.filter((book) => book.id.toString() !== id));
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to delete book');
+            const errorMessage = err instanceof Error ? err.message : 'Failed to delete book';
+            setError(errorMessage);
+            throw err; // Re-throw the error so it bubbles up
         } finally {
             setLoading(false);
         }
@@ -80,7 +88,7 @@ const CategoriesHook = () => {
         loading,
         error,
         refetch,
-        postBook,
+        createBook,
         updateBook,
         deleteBook,
     };

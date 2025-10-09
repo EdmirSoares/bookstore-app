@@ -155,7 +155,6 @@ const useCategoriesList = () => {
     };
 
     const handleShowAddBookModal = () => {
-        console.log('Toggling Add Book Modal');
         setShowAddBookModal(!showAddBookModal);
     };
 
