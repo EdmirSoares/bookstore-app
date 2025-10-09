@@ -1,4 +1,4 @@
-import { HttpClient } from './HttpCLient';
+import { HttpClient } from './HttpClient';
 
 export class HttpClientFactory {
     private static instance: HttpClient;

@@ -1,18 +1,28 @@
+import { Container } from '@/src/design/components/Container/Container';
+import PreviewTopicList from '@/src/design/components/PreviewTopicsList';
+import Categories from '@/src/design/components/Categories';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { Text } from '@/src/design/components/common/Text/Text';
+import Header from '@/src/design/components/Header';
+import CategoriesList from '@/src/design/components/CategoriesList';
 
-const Categories = () => {
+const CategoriesScreen = () => {
     return (
-        <View
-            style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#fff',
-            }}>
-            <Text>Categories Screen</Text>
-        </View>
+        <Container>
+            <Header
+                isHome={false}
+                screen={{
+                    title: 'Categorias',
+                    hasGoBack: false,
+                    buttonAction: () => {},
+                }}
+            />
+            <Categories />
+
+            <CategoriesList navigateTo="/(tabs)/Categories/index" />
+        </Container>
     );
 };
 
-export default Categories;
+export default CategoriesScreen;

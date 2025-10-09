@@ -37,7 +37,7 @@ const darkBackground = {
     '700': '#37516d',
     '800': '#31455b',
     '900': '#2c3b4e',
-    '950': '#1f2936',
+    '950': '#101010',
 };
 
 export default {
@@ -59,7 +59,7 @@ export default {
     dark: {
         text: neutral['50'],
         surfaceText: '#ffffff',
-        background: darkBackground['900'],
+        background: darkBackground['950'],
         backgroundForeground: darkBackground['800'],
         tabBarBackground: '#111111',
         warning500: '#FF0000',

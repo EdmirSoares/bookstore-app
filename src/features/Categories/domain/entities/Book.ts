@@ -1,8 +1,11 @@
 export interface Book {
-    id: string;
+    id: number;
     title: string;
     author: string;
-    isbn: string;
-    isAvailable: boolean;
-    publishedAt: Date;
+    publicationYear: number;
+    gender: string;
+    qttEstoque: number;
+    qttAlugados: number;
+    rented: boolean;
+    sobre: string;
 }
