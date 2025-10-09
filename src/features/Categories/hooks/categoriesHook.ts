@@ -54,7 +54,7 @@ const CategoriesHook = () => {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to update book';
             setError(errorMessage);
-            throw err; // Re-throw the error so it bubbles up
+            throw err;
         } finally {
             setLoading(false);
         }
@@ -69,7 +69,7 @@ const CategoriesHook = () => {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to delete book';
             setError(errorMessage);
-            throw err; // Re-throw the error so it bubbles up
+            throw err;
         } finally {
             setLoading(false);
         }

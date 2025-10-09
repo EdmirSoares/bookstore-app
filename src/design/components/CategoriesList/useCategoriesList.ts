@@ -126,7 +126,7 @@ const mockedData: CategoriesListItem[] = [
 ];
 
 const useCategoriesList = () => {
-    const { books, loading, error, refetch } = CategoriesHook();
+    const { books } = CategoriesHook();
 
     const [currentFilter, setCurrentFilter] = useState<'all' | 'available' | 'unavailable'>('all');
     const [showAddBookModal, setShowAddBookModal] = useState(false);

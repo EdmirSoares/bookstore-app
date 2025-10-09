@@ -42,8 +42,8 @@ export default function TabLayout() {
                 name="Home/index"
                 options={{
                     title: 'Home',
-                    tabBarIcon: ({ color }) => (
-                        <HomeIcon width={20} height={20} fill={color} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <HomeIcon width={20} height={20} color={focused ? Colors.dark.primary['400'] : "#C4CCCC"} />
                     ),
                 }}
             />
@@ -52,7 +52,7 @@ export default function TabLayout() {
                 name="Categories/index"
                 options={{
                     title: 'Categorias',
-                    tabBarIcon: ({ color }) => <BooksIcon width={20} height={20} fill={color} />,
+                    tabBarIcon: ({ color, focused }) => <BooksIcon width={20} height={20} color={focused ? Colors.dark.primary['400'] : "#C4CCCC"} />,
                 }}
             />
 
@@ -60,7 +60,7 @@ export default function TabLayout() {
                 name="Users/index"
                 options={{
                     title: 'Usuários',
-                    tabBarIcon: ({ color }) => <UsersIcon width={20} height={20} fill={color} />,
+                    tabBarIcon: ({ color, focused }) => <UsersIcon width={20} height={20} color={focused ? Colors.dark.primary['400'] : "#C4CCCC"} />,
                 }}
             />
         </Tabs>

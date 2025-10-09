@@ -9,12 +9,12 @@ import { StyleSheet } from 'react-native';
 export const useTheme = () => {
   const { colorMode, currentTheme, setColorMode, toggleTheme, initializeTheme } = useThemeStore();
 
-  // Get current theme colors
+
   const colors = Colors[currentTheme];
 
-  // Create common style utilities
+
   const createStyles = StyleSheet.create({
-    // Layout styles
+
     flexRow: {
       flexDirection: 'row',
     },
@@ -38,7 +38,7 @@ export const useTheme = () => {
       alignItems: 'center',
     },
     
-    // Background styles
+
     backgroundPrimary: {
       backgroundColor: colors.background,
     },
@@ -49,7 +49,7 @@ export const useTheme = () => {
       backgroundColor: colors.tabBarBackground,
     },
     
-    // Text styles
+
     textPrimary: {
       color: colors.text,
     },
@@ -60,7 +60,7 @@ export const useTheme = () => {
       color: colors.tint,
     },
     
-    // Common spacing
+
     padding4: { padding: 4 },
     padding6: { padding: 6 },
     padding8: { padding: 8 },
@@ -76,7 +76,7 @@ export const useTheme = () => {
     margin16: { margin: 16 },
     margin20: { margin: 20 },
     
-    // Border radius
+
     rounded4: { borderRadius: 4 },
     rounded8: { borderRadius: 8 },
     rounded12: { borderRadius: 12 },
@@ -85,7 +85,6 @@ export const useTheme = () => {
   });
 
   return {
-    // Estado atual
     colorMode,
     currentTheme,
     colors,
@@ -93,20 +92,20 @@ export const useTheme = () => {
     isLight: currentTheme === 'light',
     isSystemMode: colorMode === 'system',
     
-    // Style utilities
+
     styles: createStyles,
     
-    // Ações
+
     setColorMode,
     toggleTheme,
     initializeTheme,
     
-    // Funções de conveniência
+
     setLightMode: () => setColorMode('light'),
     setDarkMode: () => setColorMode('dark'),
     setSystemMode: () => setColorMode('system'),
     
-    // Helper functions to create dynamic styles
+    
     createThemedStyle: (lightStyle: any, darkStyle: any) => 
       currentTheme === 'light' ? lightStyle : darkStyle,
     
