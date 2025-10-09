@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Modal } from 'react-native';
 import { router, Href } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
@@ -6,14 +6,20 @@ import { HStack } from '../common/HStack';
 import { VStack } from '../common/VStack';
 import { TouchableOpacity } from '../common/TouchableOpacity/TouchableOpacity';
 import { Text } from '../common/Text/Text';
-import usePreviewTopicsList, { PreviewTopicsItem } from './useCategoriesList';
+import usePreviewTopicsList, { CategoriesListItem } from './useCategoriesList';
 import CheckIcon from '@/src/design/assets/common/icons/check-icon.svg';
 import BlockIcon from '@/src/design/assets/common/icons/block-icon.svg';
 import ArrowRounded from '@/src/design/assets/common/icons/arrow-rounded.svg';
 import useCategoriesList from './useCategoriesList';
+import AddBookScreen from '@/src/features/Categories/presentation/AddBookScreen';
 
-const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
+const RenderItem = ({ item }: { item: CategoriesListItem & { isPlaceholder?: boolean } }) => {
     const { colors, styles: createStyles } = useTheme();
+
+    // Return invisible placeholder for odd-numbered items
+    if (item.isPlaceholder) {
+        return <View style={{ width: '48%', height: 320 }} />;
+    }
 
     const styles = useMemo(
         () =>
@@ -103,8 +109,31 @@ const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
 
 const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
     const { colors, styles: createStyles } = useTheme();
-    const { currentBooks, getFilteredData, currentFilter, handleChangeCurrentFilter } =
-        useCategoriesList();
+    const {
+        currentBooks,
+        getFilteredData,
+        currentFilter,
+        handleChangeCurrentFilter,
+    } = useCategoriesList();
+
+    const dataWithPlaceholder = useMemo(() => {
+        const data = [...currentBooks];
+        if (data.length % 2 !== 0) {
+            data.push({
+                id: -1,
+                title: '',
+                author: '',
+                publicationYear: 0,
+                gender: '',
+                qttEstoque: 0,
+                qttAlugados: 0,
+                rented: false,
+                sobre: '',
+                isPlaceholder: true,
+            } as CategoriesListItem & { isPlaceholder: boolean });
+        }
+        return data;
+    }, [currentBooks]);
 
     const styles = useMemo(
         () =>
@@ -148,45 +177,75 @@ const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
                     justifyContent: 'center',
                     borderWidth: 1,
                 },
+                TouchableOpacityFilter: {
+                    padding: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4,
+                    borderRadius: 999,
+                },
             }),
         [colors, createStyles]
     );
 
     return (
-        <VStack style={styles.container}>
-            <View style={{ flexDirection: 'row', gap: 10, marginBottom: 20 }}>
-                <TouchableOpacity 
-                    onPress={() => handleChangeCurrentFilter('available')}
-                    style={{ 
-                        padding: 10, 
-                        backgroundColor: currentFilter === 'available' ? 'blue' : 'gray' 
-                    }}
-                >
-                    <Text style={{ color: 'white' }}>Available</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity 
-                    onPress={() => handleChangeCurrentFilter('unavailable')}
-                    style={{ 
-                        padding: 10, 
-                        backgroundColor: currentFilter === 'unavailable' ? 'blue' : 'gray' 
-                    }}
-                >
-                    <Text style={{ color: 'white' }}>Unavailable</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity 
-                    onPress={() => handleChangeCurrentFilter('last')}
-                    style={{ 
-                        padding: 10, 
-                        backgroundColor: currentFilter === 'last' ? 'blue' : 'gray' 
-                    }}
-                >
-                    <Text style={{ color: 'white' }}>All</Text>
-                </TouchableOpacity>
-            </View>
+        <>
+            <VStack style={styles.container}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        gap: 10,
+                        marginBottom: 20,
+                        justifyContent: 'flex-end',
+                        width: '100%',
+                    }}>
+                    <TouchableOpacity
+                        onPress={() => handleChangeCurrentFilter('all')}
+                        style={[
+                            styles.TouchableOpacityFilter,
+                            {
+                                backgroundColor:
+                                    currentFilter === 'all'
+                                        ? colors.primary['400'] + '40'
+                                        : colors.neutral['800'] + '40',
+                            },
+                        ]}>
+                        <Text style={{ fontSize: 10 }}>Todos</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => handleChangeCurrentFilter('available')}
+                        style={[
+                            styles.TouchableOpacityFilter,
+                            {
+                                backgroundColor:
+                                    currentFilter === 'available'
+                                        ? colors.primary['400'] + '40'
+                                        : colors.neutral['800'] + '40',
+                            },
+                        ]}>
+                        <CheckIcon />
+                        <Text style={{ fontSize: 10 }}>Disponíveis</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => handleChangeCurrentFilter('unavailable')}
+                        style={[
+                            styles.TouchableOpacityFilter,
+                            {
+                                backgroundColor:
+                                    currentFilter === 'unavailable'
+                                        ? colors.primary['400'] + '40'
+                                        : colors.neutral['800'] + '40',
+                            },
+                        ]}>
+                        <BlockIcon />
+                        <Text style={{ fontSize: 10 }}>Indisponíveis</Text>
+                    </TouchableOpacity>
+                </View>
                 <FlatList
-                    data={currentBooks}
+                    key="two-columns"
+                    data={dataWithPlaceholder}
                     numColumns={2}
                     showsVerticalScrollIndicator={false}
                     alwaysBounceVertical={false}
@@ -194,21 +253,24 @@ const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
                     overScrollMode="never"
                     snapToAlignment="start"
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }: { item: PreviewTopicsItem }) => (
-                        <RenderItem item={item} />
-                    )}
-                    contentContainerStyle={{ 
+                    renderItem={({
+                        item,
+                    }: {
+                        item: CategoriesListItem & { isPlaceholder?: boolean };
+                    }) => <RenderItem item={item} />}
+                    contentContainerStyle={{
                         gap: 10,
-                        paddingHorizontal: 10
                     }}
                     columnWrapperStyle={{
                         justifyContent: 'flex-start',
                         gap: 10,
                         marginBottom: 10,
-                        width: '100%'
+                        width: '100%',
                     }}
                 />
-        </VStack>
+            </VStack>
+            
+        </>
     );
 };
 

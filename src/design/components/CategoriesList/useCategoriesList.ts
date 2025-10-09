@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
-export interface PreviewTopicsItem {
+import CategoriesHook from '@/src/features/Categories/hooks/categoriesHook';
+import { use, useCallback, useEffect, useMemo, useState } from 'react';
+export interface CategoriesListItem {
     id: number;
     title: string;
     author: string;
@@ -11,7 +12,7 @@ export interface PreviewTopicsItem {
     sobre: string;
 }
 
-const mockedData: PreviewTopicsItem[] = [
+const mockedData: CategoriesListItem[] = [
     {
         id: 1,
         title: 'O Enigma das Sombras',
@@ -125,12 +126,13 @@ const mockedData: PreviewTopicsItem[] = [
 ];
 
 const useCategoriesList = () => {
-    const [currentFilter, setCurrentFilter] = useState<'last' | 'available' | 'unavailable'>(
-        'available'
-    );
+    const { books, loading, error, refetch } = CategoriesHook();
 
-    const filterFunction = useCallback((orderBy: 'last' | 'available' | 'unavailable') => {
-        return (item: PreviewTopicsItem) => {
+    const [currentFilter, setCurrentFilter] = useState<'all' | 'available' | 'unavailable'>('all');
+    const [showAddBookModal, setShowAddBookModal] = useState(false);
+
+    const filterFunction = useCallback((orderBy: 'all' | 'available' | 'unavailable') => {
+        return (item: CategoriesListItem) => {
             if (orderBy === 'available') {
                 return item.qttEstoque > item.qttAlugados;
             }
@@ -142,17 +144,26 @@ const useCategoriesList = () => {
     }, []);
 
     const getFilteredData = useCallback(
-        (orderBy: 'last' | 'available' | 'unavailable') => {
+        (orderBy: 'all' | 'available' | 'unavailable') => {
             return mockedData.filter(filterFunction(orderBy));
         },
         [mockedData, filterFunction]
     );
 
-    const handleChangeCurrentFilter = (newFilter: 'last' | 'available' | 'unavailable') => {
+    const handleChangeCurrentFilter = (newFilter: 'all' | 'available' | 'unavailable') => {
         setCurrentFilter(newFilter);
     };
 
+    const handleShowAddBookModal = () => {
+        console.log('Toggling Add Book Modal');
+        setShowAddBookModal(!showAddBookModal);
+    };
+
     const currentBooks = getFilteredData(currentFilter);
+
+    useEffect(() => {
+        console.log('Current Books:', books);
+    }, [books]);
 
     return {
         mockedData,
@@ -160,6 +171,9 @@ const useCategoriesList = () => {
         getFilteredData,
         currentFilter,
         handleChangeCurrentFilter,
+        showAddBookModal,
+        handleShowAddBookModal,
+        books,
     };
 };
 

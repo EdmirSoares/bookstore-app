@@ -8,19 +8,37 @@ import { ScrollView } from 'react-native';
 const Home = () => {
     return (
         <Container>
-            <Header user={{ name: 'User' }} />
+            <Header
+                isHome
+                screen={{
+                    user: {
+                        name: 'User',
+                    },
+                }}
+            />
             <Categories />
-            <ScrollView 
-            showsVerticalScrollIndicator={false}
-            snapToAlignment='start'
-            decelerationRate='fast'
-            contentContainerStyle={{ gap: 24, paddingBottom: 24 }}
-            bounces={false}
-            overScrollMode='never'
-            >
-                <PreviewTopicList title="Últimos" orderBy="last" navigateTo='/(tabs)/Categories/index' />
-                <PreviewTopicList title="Disponíveis" orderBy="available" navigateTo='/(tabs)/Categories/index' />
-                <PreviewTopicList title="Emprestados" orderBy="unavailable" navigateTo='/(tabs)/Categories/index' />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                snapToAlignment="start"
+                decelerationRate="fast"
+                contentContainerStyle={{ gap: 24, paddingBottom: 24 }}
+                bounces={false}
+                overScrollMode="never">
+                <PreviewTopicList
+                    title="Últimos"
+                    orderBy="last"
+                    navigateTo="/(tabs)/Categories/index"
+                />
+                <PreviewTopicList
+                    title="Disponíveis"
+                    orderBy="available"
+                    navigateTo="/(tabs)/Categories/index"
+                />
+                <PreviewTopicList
+                    title="Emprestados"
+                    orderBy="unavailable"
+                    navigateTo="/(tabs)/Categories/index"
+                />
             </ScrollView>
         </Container>
     );

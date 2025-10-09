@@ -26,8 +26,49 @@ const CategoriesHook = () => {
         }
     }, []);
 
+    const postBook = useCallback(async (newBook: Omit<Book, 'id'>) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const createdBook = await getBooksUseCase.create(newBook);
+            setBooks((prevBooks) => [...prevBooks, createdBook]);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to create book');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const updateBook = useCallback(async (id: string, updatedFields: Partial<Book>) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const updatedBook = await getBooksUseCase.update(id, updatedFields);
+            setBooks((prevBooks) =>
+                prevBooks.map((book) => (book.id.toString() === id ? updatedBook : book))
+            );
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to update book');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const deleteBook = useCallback(async (id: string) => {
+        try {
+            setLoading(true);
+            setError(null);
+            await getBooksUseCase.delete(id);
+            setBooks((prevBooks) => prevBooks.filter((book) => book.id.toString() !== id));
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to delete book');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
-        fetchBooks();
+        //fetchBooks();
     }, [fetchBooks]);
 
     const refetch = useCallback(() => {
@@ -38,7 +79,10 @@ const CategoriesHook = () => {
         books,
         loading,
         error,
-        refetch
+        refetch,
+        postBook,
+        updateBook,
+        deleteBook,
     };
 };
 
