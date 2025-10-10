@@ -45,12 +45,12 @@ export const SlideItem: React.FC<Props> = (props) => {
           resizeMode="cover"
         />
       )}
-      {colorFill && <View style={[styles.colorFill, rounded && { borderRadius: 15 }]} />}
+      {/* {colorFill && <View style={[styles.colorFill, rounded && { borderRadius: 15 }]} />}
       <View style={styles.overlay}>
         <View style={styles.overlayTextContainer}>
           <Text style={styles.overlayText}>{index}</Text>
         </View>
-      </View>
+      </View> */}
     </Animated.View>
   );
 };

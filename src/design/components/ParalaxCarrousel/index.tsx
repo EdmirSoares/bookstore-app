@@ -34,10 +34,13 @@ function ParallaxCarrousel() {
     return (
         <View id="carousel-component">
             <Carousel
-                autoPlayInterval={2000}
+                autoPlayInterval={4000}
                 data={defaultDataWith6Colors}
                 height={258}
                 loop={true}
+                autoPlay
+                
+                scrollAnimationDuration={2000}
                 pagingEnabled={true}
                 snapEnabled={true}
                 width={window.width}
