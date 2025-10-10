@@ -1,22 +1,17 @@
 import { View, StyleSheet, FlatList, Modal } from 'react-native';
-import { router, Href } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
-import { HStack } from '../common/HStack';
 import { VStack } from '../common/VStack';
 import { TouchableOpacity } from '../common/TouchableOpacity/TouchableOpacity';
 import { Text } from '../common/Text/Text';
-import usePreviewTopicsList, { CategoriesListItem } from './useCategoriesList';
+import { CategoriesListItem } from './useCategoriesList';
 import CheckIcon from '@/src/design/assets/common/icons/check-icon.svg';
 import BlockIcon from '@/src/design/assets/common/icons/block-icon.svg';
-import ArrowRounded from '@/src/design/assets/common/icons/arrow-rounded.svg';
 import useCategoriesList from './useCategoriesList';
-import AddBookScreen from '@/src/features/Categories/presentation/AddBookScreen';
 
 const RenderItem = ({ item }: { item: CategoriesListItem & { isPlaceholder?: boolean } }) => {
     const { colors, styles: createStyles } = useTheme();
 
-    // Return invisible placeholder for odd-numbered items
     if (item.isPlaceholder) {
         return <View style={{ width: '48%', height: 320 }} />;
     }
@@ -25,7 +20,7 @@ const RenderItem = ({ item }: { item: CategoriesListItem & { isPlaceholder?: boo
         () =>
             StyleSheet.create({
                 TouchableOpacity: {
-                    width: '48%', // Fixed width for 2 columns with gap
+                    width: '48%',
                     height: 320,
                     justifyContent: 'center',
                 },
@@ -267,6 +262,11 @@ const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
                         marginBottom: 10,
                         width: '100%',
                     }}
+                    ListEmptyComponent={
+                        <Text style={{fontSize: 16, fontFamily:'PoppinsBold'}}>
+                            Nenhum livro encontrado!
+                        </Text>
+                    }
                 />
             </VStack>
             

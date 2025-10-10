@@ -11,7 +11,7 @@ export class BooksApiClient {
     }
 
     async getBooks(): Promise<BookApiModel[]> {
-        return this.httpClient.get<BookApiModel[]>('/books');
+        return this.httpClient.get<BookApiModel[]>('/books/listar');
     }
 
     async getBooksById(id: string): Promise<BookApiModel> {
@@ -19,7 +19,7 @@ export class BooksApiClient {
     }
 
     async createBook(book: Omit<BookApiModel, 'id'>): Promise<BookApiModel> {
-        return this.httpClient.post<BookApiModel>('/books', book);
+        return this.httpClient.post<BookApiModel>('/books/adicionar', book);
     }
 
     async updateBook(id: string, book: Partial<BookApiModel>): Promise<BookApiModel> {

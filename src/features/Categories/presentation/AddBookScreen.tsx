@@ -26,14 +26,9 @@ interface AddBookScreenProps {
 
 const AddBookScreen = ({ onClose }: AddBookScreenProps) => {
     const { colors, styles: createStyles } = useTheme();
-    const {
-        control,
-        errors,
-        isSubmitting,
-        handleSubmit,
-        handleReset,
-        onSubmit
-    } = useAddBookForm({ onClose });
+    const { control, errors, isSubmitting, handleSubmit, handleReset, onSubmit } = useAddBookForm({
+        onClose,
+    });
 
     const formStyles = useMemo(
         () =>
@@ -171,15 +166,7 @@ const AddBookScreen = ({ onClose }: AddBookScreenProps) => {
                             name="title"
                             render={({ field: { onChange, value } }) => (
                                 <TextInput
-                                    style={[
-                                        formStyles.input,
-                                        {
-                                            borderColor: errors.title
-                                                ? colors.warning500 || '#ff0000'
-                                                : colors.neutral['300'],
-                                            color: colors.text,
-                                        },
-                                    ]}
+                                    style={[formStyles.input]}
                                     placeholder="Título"
                                     placeholderTextColor={colors.neutral['500']}
                                     value={value}

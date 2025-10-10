@@ -6,6 +6,7 @@ import Header from '@/src/design/components/Header';
 import CategoriesList from '@/src/design/components/CategoriesList';
 import useCategoriesList from '@/src/design/components/CategoriesList/useCategoriesList';
 import AddBookScreen from './AddBookScreen';
+import ParallaxCarrousel from '@/src/design/components/ParalaxCarrousel';
 
 const CategoriesScreen = () => {
     const { showAddBookModal, handleShowAddBookModal } = useCategoriesList();

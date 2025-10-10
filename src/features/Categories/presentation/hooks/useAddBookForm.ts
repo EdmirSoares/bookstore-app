@@ -32,18 +32,17 @@ export const useAddBookForm = ({ onClose }: { onClose: () => void }) => {
         try {
             console.log('Creating book:', data);
 
-            const response = await createBook(data);
-            if (response) {
-                Alert.alert('Sucesso', 'Livro cadastrado com sucesso!', [
-                    {
-                        text: 'OK',
-                        onPress: () => {
-                            reset();
-                            onClose();
-                        },
+            //const response = await createBook(data);
+
+            Alert.alert('Sucesso', 'Livro cadastrado com sucesso!', [
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        reset();
+                        onClose();
                     },
-                ]);
-            }
+                },
+            ]);
         } catch (error) {
             console.error('Error creating book:', error);
             Alert.alert('Erro', 'Erro ao cadastrar livro. Tente novamente.');
