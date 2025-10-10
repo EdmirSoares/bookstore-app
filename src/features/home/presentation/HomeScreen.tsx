@@ -4,6 +4,7 @@ import { Container } from '@/src/design/components/Container/Container';
 import Categories from '@/src/design/components/Categories';
 import PreviewTopicList from '@/src/design/components/PreviewTopicsList';
 import { ScrollView } from 'react-native';
+import ParallaxCarrousel from '@/src/design/components/ParalaxCarrousel';
 
 const Home = () => {
     return (
@@ -16,7 +17,7 @@ const Home = () => {
                     },
                 }}
             />
-            <Categories />
+
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 snapToAlignment="start"
@@ -24,6 +25,8 @@ const Home = () => {
                 contentContainerStyle={{ gap: 24, paddingBottom: 24 }}
                 bounces={false}
                 overScrollMode="never">
+                <ParallaxCarrousel />
+                <Categories />
                 <PreviewTopicList
                     title="Últimos"
                     orderBy="last"
