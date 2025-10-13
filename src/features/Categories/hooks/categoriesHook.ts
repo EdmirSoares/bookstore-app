@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { GetBooksUseCase } from '../domain/usecases/GetBookUseCase';
 import { Book } from '../domain/entities/Book';
 import { BookRepositoryImpl } from '../data/repositories/BookRepositoryImpl';
@@ -8,9 +9,13 @@ const CategoriesHook = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const booksApiClient = new BooksApiClient();
-    const bookRepository = new BookRepositoryImpl(booksApiClient);
-    const getBooksUseCase = new GetBooksUseCase(bookRepository);
+    
+    const { getBooksUseCase } = useMemo(() => {
+        const booksApiClient = new BooksApiClient();
+        const bookRepository = new BookRepositoryImpl(booksApiClient);
+        const getBooksUseCase = new GetBooksUseCase(bookRepository);
+        return { getBooksUseCase };
+    }, []);
 
     const fetchBooks = useCallback(async () => {
         try {
@@ -18,13 +23,14 @@ const CategoriesHook = () => {
             setError(null);
 
             const availableBooks = await getBooksUseCase.execute();
+            console.log('Fetched books:', availableBooks);
             setBooks(availableBooks);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch books');
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [getBooksUseCase]);
 
     const createBook = useCallback(async (newBook: Omit<Book, 'id'>) => {
         try {
@@ -40,7 +46,7 @@ const CategoriesHook = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [getBooksUseCase]);
 
     const updateBook = useCallback(async (id: string, updatedFields: Partial<Book>) => {
         try {
@@ -58,7 +64,7 @@ const CategoriesHook = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [getBooksUseCase]);
 
     const deleteBook = useCallback(async (id: string) => {
         try {
@@ -73,11 +79,14 @@ const CategoriesHook = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [getBooksUseCase]);
 
-    useEffect(() => {
-        //fetchBooks();
-    }, [fetchBooks]);
+    // Usar useFocusEffect para garantir que fetchBooks seja chamado sempre que a tela receber foco
+    useFocusEffect(
+        useCallback(() => {
+            fetchBooks();
+        }, [fetchBooks])
+    );
 
     const refetch = useCallback(() => {
         fetchBooks();
