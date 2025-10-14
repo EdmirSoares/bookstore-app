@@ -145,9 +145,9 @@ const useCategoriesList = () => {
 
     const getFilteredData = useCallback(
         (orderBy: 'all' | 'available' | 'unavailable') => {
-            return mockedData.filter(filterFunction(orderBy));
+            return books.filter(filterFunction(orderBy));
         },
-        [mockedData, filterFunction]
+        [books, filterFunction]
     );
 
     const handleChangeCurrentFilter = (newFilter: 'all' | 'available' | 'unavailable') => {

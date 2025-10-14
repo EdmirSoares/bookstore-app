@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { bookSchema, BookFormData } from '../forms/AddBookFormSchema';
-import { Book } from '../../domain/entities/Book';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert } from 'react-native';
@@ -32,7 +31,7 @@ export const useAddBookForm = ({ onClose }: { onClose: () => void }) => {
         try {
             console.log('Creating book:', data);
 
-            //const response = await createBook(data);
+            const response = await createBook(data);
 
             Alert.alert('Sucesso', 'Livro cadastrado com sucesso!', [
                 {

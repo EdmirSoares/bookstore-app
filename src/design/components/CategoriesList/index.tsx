@@ -104,12 +104,8 @@ const RenderItem = ({ item }: { item: CategoriesListItem & { isPlaceholder?: boo
 
 const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
     const { colors, styles: createStyles } = useTheme();
-    const {
-        currentBooks,
-        getFilteredData,
-        currentFilter,
-        handleChangeCurrentFilter,
-    } = useCategoriesList();
+    const { currentBooks, getFilteredData, currentFilter, handleChangeCurrentFilter, books } =
+        useCategoriesList();
 
     const dataWithPlaceholder = useMemo(() => {
         const data = [...currentBooks];
@@ -263,13 +259,14 @@ const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
                         width: '100%',
                     }}
                     ListEmptyComponent={
-                        <Text style={{fontSize: 16, fontFamily:'PoppinsBold'}}>
-                            Nenhum livro encontrado!
-                        </Text>
+                        <VStack style={{ marginTop: 50 }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'PoppinsBold', color: colors.neutral['300'] }}>
+                                Nenhum livro encontrado!
+                            </Text>
+                        </VStack>
                     }
                 />
             </VStack>
-            
         </>
     );
 };

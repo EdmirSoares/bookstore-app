@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import '../global.css';
 import { Stack } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -10,6 +11,7 @@ import { ThemeProvider as CustomThemeProvider } from '../src/shared/providers/Th
 import 'react-native-reanimated';
 import { useColorScheme } from '@/src/design/useColorScheme';
 import { View, ActivityIndicator, StatusBar } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
@@ -47,12 +49,14 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <CustomThemeProvider>
-        <StatusBar backgroundColor={'#000'} />
-        <RootLayoutNav />
-      </CustomThemeProvider>
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <CustomThemeProvider>
+          <StatusBar backgroundColor={'#000'} />
+          <RootLayoutNav />
+        </CustomThemeProvider>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
 

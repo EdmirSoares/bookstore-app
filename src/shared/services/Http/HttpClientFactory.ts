@@ -3,7 +3,7 @@ import { HttpClient } from './HttpClient';
 export class HttpClientFactory {
     private static instance: HttpClient;
 
-    private static readonly BASE_URL: string = 'http://localhost:3000/api';
+    private static readonly BASE_URL: string = 'http://192.168.100.110:3000/api';
 
     static create(baseUrl: string = this.BASE_URL): HttpClient {
         if (!this.instance) {

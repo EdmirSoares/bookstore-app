@@ -45,4 +45,8 @@ export class BooksApiClient {
     async getBooksByCategory(categoryId: string): Promise<BookApiModel[]> {
         return this.httpClient.get<BookApiModel[]>(`/books/category/${categoryId}`);
     }
+
+    async getBooksCategories(): Promise<string[]> {
+        return this.httpClient.get<string[]>('/books/categories');
+    }
 }

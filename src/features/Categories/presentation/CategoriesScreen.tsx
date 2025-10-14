@@ -20,9 +20,11 @@ const CategoriesScreen = () => {
                     buttonAction: handleShowAddBookModal,
                 }}
             />
+
             <Categories />
 
             <CategoriesList navigateTo="/(tabs)/Categories/index" />
+            
             <Modal
                 visible={showAddBookModal}
                 animationType="slide"

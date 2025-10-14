@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { GetBooksUseCase } from '../domain/usecases/GetBookUseCase';
-import { Book } from '../domain/entities/Book';
-import { BookRepositoryImpl } from '../data/repositories/BookRepositoryImpl';
-import { BooksApiClient } from '../data/datasources/remote/BooksApiClient';
+import { GetBooksUseCase } from '../../books/domain/usecases/GetBookUseCase';
+import { BookRepositoryImpl } from '../../books/data/repositories/BookRepositoryImpl';
+import { Book } from '../../books/domain/entities/Book';
+import { BooksApiClient } from '../../books/data/datasources/remote/BooksApiClient';
 
 const CategoriesHook = () => {
     const [books, setBooks] = useState<Book[]>([]);
