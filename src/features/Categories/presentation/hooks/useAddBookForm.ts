@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { bookSchema, BookFormData } from '../forms/AddBookFormSchema';
+import { bookSchema, BookFormData } from '../../domain/forms/AddBookFormSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert } from 'react-native';
-import CategoriesHook from '../../hooks/categoriesHook';
+import { useCategoriesPresentation } from './useCategoriesPresentation';
 
+/**
+ * Hook específico para o formulário de adicionar livro
+ * Gerencia apenas a lógica de apresentação do formulário
+ */
 export const useAddBookForm = ({ onClose }: { onClose: () => void }) => {
-    const { createBook } = CategoriesHook();
+    const { createBook } = useCategoriesPresentation();
 
     const {
         control,
