@@ -5,8 +5,10 @@ import Categories from '@/src/design/components/Categories';
 import PreviewTopicList from '@/src/design/components/PreviewTopicsList';
 import { ScrollView } from 'react-native';
 import ParallaxCarrousel from '@/src/design/components/ParalaxCarrousel';
+import { useHomePresentation } from './hooks/useHomePresentation';
 
 const Home = () => {
+    const { books, loading, error, fetchBooks } = useHomePresentation();
     return (
         <Container>
             <Header
@@ -26,22 +28,30 @@ const Home = () => {
                 bounces={false}
                 overScrollMode="never">
                 <ParallaxCarrousel />
+
                 <Categories />
+
                 <PreviewTopicList
                     title="Últimos"
                     orderBy="last"
                     navigateTo="/(tabs)/Categories/index"
+                    data={books}
                 />
+
                 <PreviewTopicList
                     title="Disponíveis"
                     orderBy="available"
                     navigateTo="/(tabs)/Categories/index"
+                    data={books.filter(book => book.qttEstoque > book.qttAlugados)}
                 />
+
                 <PreviewTopicList
                     title="Emprestados"
                     orderBy="unavailable"
                     navigateTo="/(tabs)/Categories/index"
+                    data={books.filter(book => book.qttEstoque === book.qttAlugados)}
                 />
+
             </ScrollView>
         </Container>
     );

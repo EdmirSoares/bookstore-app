@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { router, Href } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
@@ -10,10 +10,11 @@ import usePreviewTopicsList, { PreviewTopicsItem } from './usePreviewTopicsList'
 import CheckIcon from '@/src/design/assets/common/icons/check-icon.svg';
 import BlockIcon from '@/src/design/assets/common/icons/block-icon.svg';
 import ArrowRounded from '@/src/design/assets/common/icons/arrow-rounded.svg';
+import AlertIcon from '@/src/design/assets/common/icons/exclamation-icon.svg';
 
 const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
     const { colors, styles: createStyles } = useTheme();
-
+    
     const styles = useMemo(
         () =>
             StyleSheet.create({
@@ -105,13 +106,16 @@ const PreviewTopicList = ({
     title,
     orderBy,
     navigateTo,
+    data,
 }: {
     title: string;
     orderBy: 'last' | 'available' | 'unavailable';
     navigateTo: string;
+    data: PreviewTopicsItem[];
 }) => {
     const { colors, styles: createStyles } = useTheme();
-    const { filteredData } = usePreviewTopicsList({ orderBy });
+    const { filteredData } = usePreviewTopicsList({ orderBy, data });
+    const widthScreen = Dimensions.get('window').width;
 
     const styles = useMemo(
         () =>
@@ -185,6 +189,23 @@ const PreviewTopicList = ({
                         <RenderItem item={item} />
                     )}
                     contentContainerStyle={{ gap: 10 }}
+                    ListEmptyComponent={
+                        <VStack
+                            style={{
+                                flex: 1,
+                                minWidth: widthScreen,
+                                height: 156,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                gap: 8,
+                            }}>
+                            <AlertIcon />
+                            <Text style={[styles.descriptionText]}>
+                                Nenhum item encontrado
+                            </Text>
+                        </VStack>
+                    }
                 />
             </VStack>
         </HStack>

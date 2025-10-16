@@ -124,7 +124,7 @@ const mockedData: PreviewTopicsItem[] = [
     },
 ];
 
-const usePreviewTopicsList = ({ orderBy }: { orderBy: string }) => {
+const usePreviewTopicsList = ({ orderBy, data }: { orderBy: string; data: PreviewTopicsItem[] }) => {
 
     const filterFunction = useCallback(
         (item: PreviewTopicsItem) => {
@@ -140,11 +140,11 @@ const usePreviewTopicsList = ({ orderBy }: { orderBy: string }) => {
     );
 
     const filteredData = useMemo(() => {
-        return mockedData.filter(filterFunction);
-    }, [mockedData, filterFunction]);
+        return data.filter(filterFunction);
+    }, [data, filterFunction]);
 
     return {
-        mockedData,
+        data,
         filteredData,
     };
 };
