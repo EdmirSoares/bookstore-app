@@ -7,9 +7,13 @@ import { VStack } from '../common/VStack';
 import useCategories from './useCategories';
 import { TouchableOpacity } from '../common/TouchableOpacity/TouchableOpacity';
 
-const Categories = () => {
+interface CategoriesProps {
+    onFilterChange?: (filter: string) => void;
+}
+
+const Categories = ({ onFilterChange }: CategoriesProps) => {
     const { colors, currentTheme, toggleTheme, styles: createStyles } = useTheme();
-    const { categories, changeCategory, selectedCategory } = useCategories();
+    const { categories, handleChangeCurrentFilter, selectedCategory } = useCategories();
 
     const styles = useMemo(
         () =>
@@ -35,8 +39,8 @@ const Categories = () => {
                     lineHeight: 18,
                 },
                 TouchableOpacity: {
-                    paddingVertical: createStyles.padding6.padding,
-                    width: 75,
+                    paddingVertical: createStyles.padding8.padding,
+                    width: 90,
                     borderRadius: 999,
                     backgroundColor: colors.primary['400'],
                     alignItems: 'center',
@@ -59,25 +63,27 @@ const Categories = () => {
                     bounces={false}
                     overScrollMode="never"
                     snapToAlignment="start"
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.key}
                     renderItem={({ item }) => (
                         <TouchableOpacity
+                            onPress={() => {
+                                handleChangeCurrentFilter(item.key);
+                            }}
                             style={[
                                 styles.TouchableOpacity,
                                 {
                                     borderColor:
-                                        selectedCategory === item.id
+                                        selectedCategory === item.key
                                             ? 'transparent'
                                             : colors.primary['400'],
                                     backgroundColor:
-                                        selectedCategory === item.id
+                                        selectedCategory === item.key
                                             ? colors.primary['400']
                                             : 'transparent',
-                                    opacity: selectedCategory === item.id ? 1 : 0.25,
+                                    opacity: selectedCategory === item.key ? 1 : 0.25,
                                 },
-                            ]}
-                            onPress={() => changeCategory(item.id)}>
-                            <Text style={styles.descriptionText}>{item.name}</Text>
+                            ]}>
+                            <Text style={styles.descriptionText}>{item.name.split(' ')[0]}</Text>
                         </TouchableOpacity>
                     )}
                     ItemSeparatorComponent={() => <View style={{ width: 10 }} />}

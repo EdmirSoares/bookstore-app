@@ -2,8 +2,8 @@ import { Book } from '@/src/features/books/domain/entities/Book';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { HomeFactory } from '../../data/factories/HomeFactory';
-import { ManageBooksUseCase } from '@/src/features/Categories/domain/usecases/ManageBooksUseCase';
 import { GetBooksUseCase } from '@/src/features/books/domain/usecases/GetBookUseCase';
+import useCategories from '@/src/design/components/Categories/useCategories';
 
 export const useHomePresentation = () => {
     const [books, setBooks] = useState<Book[]>([]);
@@ -21,7 +21,9 @@ export const useHomePresentation = () => {
             setError(null);
 
             const availableBooks = await manageBooksUseCase.execute();
+
             console.log('Fetched books:', availableBooks);
+
             setBooks(availableBooks);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch books');

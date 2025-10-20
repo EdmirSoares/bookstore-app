@@ -1,9 +1,8 @@
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, use } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Category } from '../../domain/entities/Category';
 import { ManageCategoriesUseCase } from '../../domain/usecases/ManageCategoriesUseCase';
 import { CategoriesFactory } from '../../data/factories/CategoriesFactory';
-
 
 export const useCategoriesManagement = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -29,14 +28,17 @@ export const useCategoriesManagement = () => {
         }
     }, [manageCategoriesUseCase]);
 
-    const getCategoryByName = useCallback(async (name: string) => {
-        try {
-            return await manageCategoriesUseCase.getCategoryByName(name);
-        } catch (err) {
-            console.error('Error getting category by name:', err);
-            return undefined;
-        }
-    }, [manageCategoriesUseCase]);
+    const getCategoryByName = useCallback(
+        async (name: string) => {
+            try {
+                return await manageCategoriesUseCase.getCategoryByName(name);
+            } catch (err) {
+                console.error('Error getting category by name:', err);
+                return undefined;
+            }
+        },
+        [manageCategoriesUseCase]
+    );
 
     const getCategoryKeys = useCallback(async () => {
         try {
@@ -56,9 +58,19 @@ export const useCategoriesManagement = () => {
         }
     }, [manageCategoriesUseCase]);
 
+    const handleChangeCurrentFilter = useCallback((filter: string) => {
+        console.log('Current filter changed to:', filter);
+    }, []);
+
     const refetch = useCallback(() => {
         fetchCategories();
     }, [fetchCategories]);
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchCategories();
+        }, [fetchCategories])
+    );
 
     return {
         categories,
@@ -68,5 +80,6 @@ export const useCategoriesManagement = () => {
         getCategoryByName,
         getCategoryKeys,
         getCategoryNames,
+        handleChangeCurrentFilter
     };
 };

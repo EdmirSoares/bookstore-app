@@ -1,4 +1,3 @@
-
 import { HttpClient } from '@/src/shared/services/Http/HttpClient';
 import { BookApiModel } from '../../models/BookApiModel';
 import { HttpClientFactory } from '@/src/shared/services/Http/HttpClientFactory';
@@ -32,21 +31,17 @@ export class BooksApiClient {
 
     async getBooksWithPagination(page: number = 1, limit: number = 10): Promise<BookApiModel[]> {
         return this.httpClient.get<BookApiModel[]>('/books', {
-            params: { page, limit }
+            params: { page, limit },
         });
     }
 
     async searchBooks(query: string): Promise<BookApiModel[]> {
         return this.httpClient.get<BookApiModel[]>('/books/search', {
-            params: { q: query }
+            params: { q: query },
         });
     }
 
     async getBooksByCategory(categoryId: string): Promise<BookApiModel[]> {
         return this.httpClient.get<BookApiModel[]>(`/books/category/${categoryId}`);
-    }
-
-    async getBooksCategories(): Promise<string[]> {
-        return this.httpClient.get<string[]>('/books/categories');
     }
 }

@@ -1,4 +1,4 @@
-import CategoriesHook from '@/src/features/Categories/hooks/categoriesHook';
+import { useCategoriesPresentation } from '@/src/features/Categories/presentation/hooks/useCategoriesPresentation';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
 export interface CategoriesListItem {
     id: number;
@@ -126,7 +126,7 @@ const mockedData: CategoriesListItem[] = [
 ];
 
 const useCategoriesList = () => {
-    const { books } = CategoriesHook();
+    const { books } = useCategoriesPresentation();
 
     const [currentFilter, setCurrentFilter] = useState<'all' | 'available' | 'unavailable'>('all');
     const [showAddBookModal, setShowAddBookModal] = useState(false);

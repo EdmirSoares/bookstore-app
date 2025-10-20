@@ -8,7 +8,8 @@ import ParallaxCarrousel from '@/src/design/components/ParalaxCarrousel';
 import { useHomePresentation } from './hooks/useHomePresentation';
 
 const Home = () => {
-    const { books, loading, error, fetchBooks } = useHomePresentation();
+    const { books, loading, error, fetchBooks, handleFilterChange } = useHomePresentation();
+
     return (
         <Container>
             <Header
@@ -42,16 +43,15 @@ const Home = () => {
                     title="Disponíveis"
                     orderBy="available"
                     navigateTo="/(tabs)/Categories/index"
-                    data={books.filter(book => book.qttEstoque > book.qttAlugados)}
+                    data={books.filter((book) => book.qttEstoque > book.qttAlugados)}
                 />
 
                 <PreviewTopicList
                     title="Emprestados"
                     orderBy="unavailable"
                     navigateTo="/(tabs)/Categories/index"
-                    data={books.filter(book => book.qttEstoque === book.qttAlugados)}
+                    data={books.filter((book) => book.qttEstoque === book.qttAlugados)}
                 />
-
             </ScrollView>
         </Container>
     );
