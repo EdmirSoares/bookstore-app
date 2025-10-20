@@ -1,6 +1,6 @@
 # 📚 Bookstore App
-
 A modern React Native bookstore application built with Clean Architecture principles and feature-based organization.
+<img width="1187" height="600" alt="img" src="https://github.com/user-attachments/assets/aff7fe0a-ddaa-4343-97b2-bee220a9002b" />
 
 ![React Native](https://img.shields.io/badge/React_Native-0.81.4-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Expo](https://img.shields.io/badge/Expo-54.0.0-000020?style=for-the-badge&logo=expo&logoColor=white)
