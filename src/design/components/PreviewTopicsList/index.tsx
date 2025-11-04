@@ -14,7 +14,7 @@ import AlertIcon from '@/src/design/assets/common/icons/exclamation-icon.svg';
 
 const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
     const { colors, styles: createStyles } = useTheme();
-    
+
     const styles = useMemo(
         () =>
             StyleSheet.create({
@@ -89,8 +89,10 @@ const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
         <TouchableOpacity style={styles.TouchableOpacity}>
             <View style={styles.container}>
                 <Text style={styles.titleAbbreviation}>
-                    {item.author.split(' ')[0].charAt(0).toUpperCase() +
-                        item.author.split(' ')[1].charAt(0).toUpperCase()}
+                    {item.author.split(' ').length > 1
+                        ? item.author.split(' ')[0].charAt(0).toUpperCase() +
+                          item.author.split(' ')[1].charAt(0).toUpperCase()
+                        : item.author.charAt(0).toUpperCase()}
                 </Text>
             </View>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
@@ -201,9 +203,7 @@ const PreviewTopicList = ({
                                 gap: 8,
                             }}>
                             <AlertIcon />
-                            <Text style={[styles.descriptionText]}>
-                                Nenhum item encontrado
-                            </Text>
+                            <Text style={[styles.descriptionText]}>Nenhum item encontrado</Text>
                         </VStack>
                     }
                 />

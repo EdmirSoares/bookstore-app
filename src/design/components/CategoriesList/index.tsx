@@ -88,9 +88,10 @@ const RenderItem = ({ item }: { item: CategoriesListItem & { isPlaceholder?: boo
     return (
         <TouchableOpacity style={styles.TouchableOpacity}>
             <View style={styles.container}>
-                <Text style={styles.titleAbbreviation}>{/* 
-                    {item.author.split(' ')[0].charAt(0).toUpperCase() +
-                        item.author.split(' ')[1].charAt(0).toUpperCase()} */}
+                <Text style={styles.titleAbbreviation}>{item.author.split(' ').length > 1
+                        ? item.author.split(' ')[0].charAt(0).toUpperCase() +
+                          item.author.split(' ')[1].charAt(0).toUpperCase()
+                        : item.author.charAt(0).toUpperCase()}
                 </Text>
             </View>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
