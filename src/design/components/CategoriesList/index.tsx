@@ -105,7 +105,7 @@ const RenderItem = ({ item }: { item: CategoriesListItem & { isPlaceholder?: boo
 
 const CategoriesList = ({ navigateTo }: { navigateTo: string }) => {
     const { colors, styles: createStyles } = useTheme();
-    const { currentBooks, getFilteredData, currentFilter, handleChangeCurrentFilter, books } =
+    const { currentBooks, currentFilter, handleChangeCurrentFilter } =
         useCategoriesList();
 
     const dataWithPlaceholder = useMemo(() => {
