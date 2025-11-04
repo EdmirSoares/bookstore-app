@@ -8,7 +8,7 @@ import ParallaxCarrousel from '@/src/design/components/ParalaxCarrousel';
 import { useHomePresentation } from './hooks/useHomePresentation';
 
 const Home = () => {
-    const { books, loading, error, fetchBooks, handleFilterChange } = useHomePresentation();
+    const { books, loading, error, fetchBooks } = useHomePresentation();
 
     return (
         <Container>
