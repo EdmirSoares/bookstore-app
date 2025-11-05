@@ -1,22 +1,29 @@
-import { useCategoriesManagement } from '@/src/features/Categories';
 import { useFocusEffect } from 'expo-router';
-import { useState } from 'react';
-import { set } from 'zod';
+import { useCallback } from 'react';
+import { useCategoriesStore } from '@/src/shared/stores/categoriesStore';
 
 const useCategories = () => {
-    const [selectedCategory, setSelectedCategory] = useState<string | null>('0');
-    const { categories, handleChangeCurrentFilter } = useCategoriesManagement();
+    const {
+        categories,
+        currentFilter,
+        loading,
+        error,
+        setCurrentFilter,
+        fetchCategories
+    } = useCategoriesStore();
 
-    useFocusEffect(() => {
-        if (categories.length > 0) {
-            setSelectedCategory(categories[0].key);
-        }
-    });
+    useFocusEffect(
+        useCallback(() => {
+            fetchCategories();
+        }, [fetchCategories])
+    );
 
     return {
         categories,
-        handleChangeCurrentFilter,
-        selectedCategory,
+        currentFilter,
+        loading,
+        error,
+        handleChangeCurrentFilter: setCurrentFilter,
     };
 };
 

@@ -3,19 +3,19 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Book } from '../../../books/domain/entities/Book';
 import { ManageBooksUseCase } from '../../domain/usecases/ManageBooksUseCase';
 import { CategoriesFactory } from '../../data/factories/CategoriesFactory';
-import { useCategoriesManagement } from './useCategoriesManagement';
+import { useCategoriesStore } from '@/src/shared/stores/categoriesStore';
 
 export const useCategoriesPresentation = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const {
-        categories,
-        loading: categoriesLoading,
-        error: categoriesError,
-        refetch: refetchCategories,
-    } = useCategoriesManagement();
+    const { 
+        categories, 
+        loading: categoriesLoading, 
+        error: categoriesError, 
+        fetchCategories 
+    } = useCategoriesStore();
 
     const manageBooksUseCase = useMemo(() => {
         const bookRepository = CategoriesFactory.getBookRepository();
@@ -117,8 +117,8 @@ export const useCategoriesPresentation = () => {
     useFocusEffect(
         useCallback(() => {
             fetchBooks();
-            refetchCategories();
-        }, [fetchBooks, refetchCategories])
+            fetchCategories();
+        }, [fetchBooks, fetchCategories])
     );
     console.log('Categories in presentation hook:', categories);
 

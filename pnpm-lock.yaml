@@ -96,7 +96,7 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
       zustand:
-        specifier: ^4.5.1
+        specifier: ^4.5.7
         version: 4.5.7(@types/react@19.1.17)(react@19.1.0)
     devDependencies:
       '@babel/core':

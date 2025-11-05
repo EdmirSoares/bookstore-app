@@ -13,7 +13,7 @@ interface CategoriesProps {
 
 const Categories = ({ onFilterChange }: CategoriesProps) => {
     const { colors, currentTheme, toggleTheme, styles: createStyles } = useTheme();
-    const { categories, handleChangeCurrentFilter, selectedCategory } = useCategories();
+    const { categories, handleChangeCurrentFilter, currentFilter } = useCategories();
 
     const styles = useMemo(
         () =>
@@ -67,20 +67,20 @@ const Categories = ({ onFilterChange }: CategoriesProps) => {
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             onPress={() => {
-                                handleChangeCurrentFilter(item.key);
+                                handleChangeCurrentFilter(item);
                             }}
                             style={[
                                 styles.TouchableOpacity,
                                 {
                                     borderColor:
-                                        selectedCategory === item.key
+                                        currentFilter?.key === item.key
                                             ? 'transparent'
                                             : colors.primary['400'],
                                     backgroundColor:
-                                        selectedCategory === item.key
+                                        currentFilter?.key === item.key
                                             ? colors.primary['400']
                                             : 'transparent',
-                                    opacity: selectedCategory === item.key ? 1 : 0.25,
+                                    opacity: currentFilter?.key === item.key ? 1 : 0.25,
                                 },
                             ]}>
                             <Text style={styles.descriptionText}>{item.name.split(' ')[0]}</Text>
