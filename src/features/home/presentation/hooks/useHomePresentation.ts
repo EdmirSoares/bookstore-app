@@ -1,14 +1,17 @@
 import { Book } from '@/src/features/books/domain/entities/Book';
 import { useFocusEffect } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HomeFactory } from '../../data/factories/HomeFactory';
 import { GetBooksUseCase } from '@/src/features/books/domain/usecases/GetBookUseCase';
-import useCategories from '@/src/design/components/Categories/useCategories';
+import { useCategoriesStore } from '@/src/shared/stores/categoriesStore';
 
 export const useHomePresentation = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+    
+    const currentFilter = useCategoriesStore((state) => state.currentFilter);
 
     const manageBooksUseCase = useMemo(() => {
         const bookRepository = HomeFactory.getBookRepository();
@@ -22,8 +25,6 @@ export const useHomePresentation = () => {
 
             const availableBooks = await manageBooksUseCase.execute();
 
-            console.log('Fetched books:', availableBooks);
-
             setBooks(availableBooks);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch books');
@@ -32,6 +33,23 @@ export const useHomePresentation = () => {
         }
     }, [manageBooksUseCase]);
 
+    useEffect(() => {
+        console.log('Current filter:', currentFilter);
+        console.log('Available books:', books.length);
+        
+        const filtered = books.filter((book) => {
+            // If no filter or filter is "ALL", show all books
+            if (!currentFilter || currentFilter.key === "ALL") {
+                return true;
+            }
+            // Otherwise, filter by gender
+            return book.gender === currentFilter.name;
+        });
+        
+        console.log('Filtered books:', filtered.length);
+        setFilteredBooks(filtered);
+    }, [currentFilter, books]);
+
     useFocusEffect(
         useCallback(() => {
             fetchBooks();
@@ -39,7 +57,7 @@ export const useHomePresentation = () => {
     );
 
     return {
-        books,
+        filteredBooks,
         loading,
         error,
         fetchBooks,
