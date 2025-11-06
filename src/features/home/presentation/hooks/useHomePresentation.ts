@@ -34,19 +34,14 @@ export const useHomePresentation = () => {
     }, [manageBooksUseCase]);
 
     useEffect(() => {
-        console.log('Current filter:', currentFilter);
-        console.log('Available books:', books.length);
         
         const filtered = books.filter((book) => {
-            // If no filter or filter is "ALL", show all books
             if (!currentFilter || currentFilter.key === "ALL") {
                 return true;
             }
-            // Otherwise, filter by gender
             return book.gender === currentFilter.name;
         });
         
-        console.log('Filtered books:', filtered.length);
         setFilteredBooks(filtered);
     }, [currentFilter, books]);
 

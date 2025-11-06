@@ -13,7 +13,7 @@ export interface CategoriesListItem {
 }
 
 const useCategoriesList = () => {
-    const { books } = useCategoriesPresentation();
+    const { filteredBooks } = useCategoriesPresentation();
 
     const [currentFilter, setCurrentFilter] = useState<'all' | 'available' | 'unavailable'>('all');
     const [showAddBookModal, setShowAddBookModal] = useState(false);
@@ -32,9 +32,9 @@ const useCategoriesList = () => {
 
     const getFilteredData = useCallback(
         (orderBy: 'all' | 'available' | 'unavailable') => {
-            return books.filter(filterFunction(orderBy));
+            return filteredBooks.filter(filterFunction(orderBy));
         },
-        [books, filterFunction]
+        [filteredBooks, filterFunction]
     );
 
     const handleChangeCurrentFilter = (newFilter: 'all' | 'available' | 'unavailable') => {
@@ -47,9 +47,6 @@ const useCategoriesList = () => {
 
     const currentBooks = getFilteredData(currentFilter);
 
-    useEffect(() => {
-        console.log('Current Books:', books);
-    }, [books]);
 
     return {
         currentBooks,
@@ -58,7 +55,7 @@ const useCategoriesList = () => {
         handleChangeCurrentFilter,
         showAddBookModal,
         handleShowAddBookModal,
-        books,
+        filteredBooks,
     };
 };
 

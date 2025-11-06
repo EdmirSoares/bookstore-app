@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Book } from '../../../books/domain/entities/Book';
 import { ManageBooksUseCase } from '../../domain/usecases/ManageBooksUseCase';
@@ -9,6 +9,10 @@ export const useCategoriesPresentation = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+
+    const currentFilter = useCategoriesStore((state) => state.currentFilter);
 
     const { 
         categories, 
@@ -120,14 +124,26 @@ export const useCategoriesPresentation = () => {
             fetchCategories();
         }, [fetchBooks, fetchCategories])
     );
-    console.log('Categories in presentation hook:', categories);
 
     const refetch = useCallback(() => {
         fetchBooks();
     }, [fetchBooks]);
 
+
+    useEffect(() => {
+            
+            const filtered = books.filter((book) => {
+                if (!currentFilter || currentFilter.key === "ALL") {
+                    return true;
+                }
+                return book.gender === currentFilter.name;
+            });
+            
+            setFilteredBooks(filtered);
+        }, [currentFilter, books]);
+
     return {
-        books,
+        filteredBooks,
         loading,
         error,
         refetch,
