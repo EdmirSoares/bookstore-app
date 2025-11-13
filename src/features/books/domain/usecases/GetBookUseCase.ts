@@ -20,7 +20,9 @@ export class GetBooksUseCase {
         return book;
     }
 
-    async create(book: Omit<BookApiModel, 'id'>): Promise<BookApiModel> {
+    async create(
+        book: Omit<BookApiModel, 'id' | 'coverImage' | 'createdAt' | 'updatedAt'>
+    ): Promise<BookApiModel> {
         const bookCreate = await this.bookRepository.createBook(book);
         return bookCreate;
     }

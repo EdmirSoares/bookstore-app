@@ -16,6 +16,9 @@ export class BookMapper {
             qttAlugados: apiModel.qttAlugados,
             rented: apiModel.rented,
             sobre: apiModel.sobre,
+            coverImage: apiModel.coverImage,
+            createdAt: apiModel.createdAt,
+            updatedAt: apiModel.updatedAt,
         };
     }
 
@@ -33,6 +36,9 @@ export class BookMapper {
             qttAlugados: domainEntity.qttAlugados,
             rented: domainEntity.rented,
             sobre: domainEntity.sobre,
+            coverImage: domainEntity.coverImage,
+            createdAt: domainEntity.createdAt,
+            updatedAt: domainEntity.updatedAt,
         };
     }
 
@@ -51,6 +57,9 @@ export class BookMapper {
         if (domainEntity.qttAlugados !== undefined) apiModel.qttAlugados = domainEntity.qttAlugados;
         if (domainEntity.rented !== undefined) apiModel.rented = domainEntity.rented;
         if (domainEntity.sobre !== undefined) apiModel.sobre = domainEntity.sobre;
+        if (domainEntity.coverImage !== undefined) apiModel.coverImage = domainEntity.coverImage;
+        if (domainEntity.createdAt !== undefined) apiModel.createdAt = domainEntity.createdAt;
+        if (domainEntity.updatedAt !== undefined) apiModel.updatedAt = domainEntity.updatedAt;
 
         return apiModel;
     }

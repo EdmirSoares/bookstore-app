@@ -8,4 +8,7 @@ export interface BookApiModel {
     qttAlugados: number;
     rented: boolean;
     sobre: string;
+    coverImage?: string;
+    createdAt?: string;
+    updatedAt?: string; 
 }

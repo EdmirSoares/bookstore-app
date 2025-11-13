@@ -8,6 +8,9 @@ export interface Book {
     qttAlugados: number;
     rented: boolean;
     sobre: string;
+    coverImage?: string;
+    createdAt?: string;
+    updatedAt?: string; 
 }
 export interface CreateBookDTO {
     title: string;
