@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { View, StyleSheet, FlatList, Dimensions, Image } from 'react-native';
 import { router, Href } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTheme } from '@/src/shared/hooks/useTheme';
@@ -6,13 +6,17 @@ import { HStack } from '../common/HStack';
 import { VStack } from '../common/VStack';
 import { TouchableOpacity } from '../common/TouchableOpacity/TouchableOpacity';
 import { Text } from '../common/Text/Text';
-import usePreviewTopicsList, { PreviewTopicsItem } from './usePreviewTopicsList';
+import usePreviewTopicsList from './usePreviewTopicsList';
 import CheckIcon from '@/src/design/assets/common/icons/check-icon.svg';
 import BlockIcon from '@/src/design/assets/common/icons/block-icon.svg';
 import ArrowRounded from '@/src/design/assets/common/icons/arrow-rounded.svg';
 import AlertIcon from '@/src/design/assets/common/icons/exclamation-icon.svg';
+import { Book } from '@/src/features/books/domain/entities/Book';
+import { HttpClientFactory } from '@/src/shared/services/Http/HttpClientFactory';
 
-const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
+const BASE_URL_UPLOADS = HttpClientFactory.getBaseUrlUploads();
+
+const RenderItem = ({ item }: { item: Book }) => {
     const { colors, styles: createStyles } = useTheme();
 
     const styles = useMemo(
@@ -84,16 +88,25 @@ const RenderItem = ({ item }: { item: PreviewTopicsItem }) => {
             )}
         </View>
     );
+    console.log('BASE_URL:', BASE_URL_UPLOADS + '/' + item.coverImage);
 
     return (
         <TouchableOpacity style={styles.TouchableOpacity}>
             <View style={styles.container}>
-                <Text style={styles.titleAbbreviation}>
-                    {item.author.split(' ').length > 1
-                        ? item.author.split(' ')[0].charAt(0).toUpperCase() +
-                          item.author.split(' ')[1].charAt(0).toUpperCase()
-                        : item.author.charAt(0).toUpperCase()}
-                </Text>
+                {item.coverImage ? (
+                    <Image
+                        source={{ uri: `${BASE_URL_UPLOADS}/${item.coverImage}` }}
+                        style={StyleSheet.absoluteFill}
+                        resizeMode="cover"
+                    />
+                ) : (
+                    <Text style={styles.titleAbbreviation}>
+                        {item.author.split(' ').length > 1
+                            ? item.author.split(' ')[0].charAt(0).toUpperCase() +
+                              item.author.split(' ')[1].charAt(0).toUpperCase()
+                            : item.author.charAt(0).toUpperCase()}
+                    </Text>
+                )}
             </View>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
                 {item.title}
@@ -113,7 +126,7 @@ const PreviewTopicList = ({
     title: string;
     orderBy: 'last' | 'available' | 'unavailable';
     navigateTo: string;
-    data: PreviewTopicsItem[];
+    data: Book[];
 }) => {
     const { colors, styles: createStyles } = useTheme();
     const { filteredData } = usePreviewTopicsList({ orderBy, data });
@@ -187,9 +200,7 @@ const PreviewTopicList = ({
                     overScrollMode="never"
                     snapToAlignment="start"
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }: { item: PreviewTopicsItem }) => (
-                        <RenderItem item={item} />
-                    )}
+                    renderItem={({ item }: { item: Book }) => <RenderItem item={item} />}
                     contentContainerStyle={{ gap: 10 }}
                     ListEmptyComponent={
                         <VStack

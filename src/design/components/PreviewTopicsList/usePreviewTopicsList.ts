@@ -1,20 +1,10 @@
+import { Book } from '@/src/features/books/domain/entities/Book';
 import { useCallback, useMemo } from 'react';
-export interface PreviewTopicsItem {
-    id: number;
-    title: string;
-    author: string;
-    publicationYear: number;
-    gender: string;
-    qttEstoque: number;
-    qttAlugados: number;
-    rented: boolean;
-    sobre: string;
-}
 
-const usePreviewTopicsList = ({ orderBy, data }: { orderBy: string; data: PreviewTopicsItem[] }) => {
+const usePreviewTopicsList = ({ orderBy, data }: { orderBy: string; data: Book[] }) => {
 
     const filterFunction = useCallback(
-        (item: PreviewTopicsItem) => {
+        (item: Book) => {
             if (orderBy === 'available') {
                 return item.qttEstoque > item.qttAlugados;
             }

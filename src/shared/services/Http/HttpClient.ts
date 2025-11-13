@@ -52,7 +52,7 @@ export class HttpClient {
                 return response;
             },
             (error) => {
-                console.error('❌ Response error:', error);
+                console.error('Response error:', error);
 
                 if (error.response) {
                     
