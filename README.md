@@ -1,4 +1,4 @@
-# 📚 Bookstore App
+# Bookstore App
 A modern React Native bookstore application built with Clean Architecture principles and feature-based organization.
 <img width="1187" height="600" alt="img" src="https://github.com/user-attachments/assets/aff7fe0a-ddaa-4343-97b2-bee220a9002b" />
 
@@ -7,18 +7,18 @@ A modern React Native bookstore application built with Clean Architecture princi
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 This project implements **Clean Architecture** with **Feature-Based Organization**, ensuring scalability, maintainability, and testability.
 
-### 🎯 Core Principles
+### Core Principles
 
 - **Separation of Concerns**: Each layer has a specific responsibility
 - **Dependency Inversion**: Dependencies flow inward toward the domain
 - **Feature Isolation**: Related functionality grouped in feature modules
 - **Type Safety**: Full TypeScript implementation
 
-### 📊 Architecture Layers
+### Architecture Layers
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -104,42 +104,42 @@ This project implements **Clean Architecture** with **Feature-Based Organization
 ## 🚀 Technologies & Libraries
 
 ### Core Framework
-- **React Native**: `0.81.4` - Mobile app framework
-- **Expo**: `54.0.0` - Development platform
-- **Expo Router**: `6.0.10` - File-based routing
+- **React Native**: - Mobile app framework
+- **Expo**: - Development platform
+- **Expo Router**: - File-based routing
 
 ### Language & Type Safety
-- **TypeScript**: `5.9.2` - Static type checking
-- **ESLint**: `9.25.1` - Code linting
-- **Prettier**: `3.2.5` - Code formatting
+- **TypeScript**: - Static type checking
+- **ESLint**: - Code linting
+- **Prettier**: - Code formatting
 
 ### UI & Styling
-- **NativeWind**: `4.1.21` - Tailwind CSS for React Native
-- **TailwindCSS**: `3.4.0` - Utility-first CSS framework
-- **React Native SVG**: `15.13.0` - SVG support
-- **React Native Reanimated**: `4.1.1` - Advanced animations
+- **NativeWind**: - Tailwind CSS for React Native
+- **TailwindCSS**: - Utility-first CSS framework
+- **React Native SVG**: - SVG support
+- **React Native Reanimated**: - Advanced animations
 
 ### Navigation & Gesture Handling
-- **React Navigation**: `7.1.6` - Navigation library
-- **React Native Gesture Handler**: `2.28.0` - Gesture recognition
-- **React Native Screens**: `4.16.0` - Native screen optimization
+- **React Navigation**: - Navigation library
+- **React Native Gesture Handler**: - Gesture recognition
+- **React Native Screens**: - Native screen optimization
 
 ### Forms & Validation
-- **React Hook Form**: `7.64.0` - Form management
-- **Zod**: `4.1.12` - Schema validation
-- **Hookform Resolvers**: `5.2.2` - Form validation integration
+- **React Hook Form**: - Form management
+- **Zod**: - Schema validation
+- **Hookform Resolvers**: - Form validation integration
 
 ### HTTP & Data Management
-- **Axios**: `1.12.2` - HTTP client
-- **Zustand**: `4.5.1` - State management
+- **Axios**: - HTTP client
+- **Zustand**: - State management
 
 ### UI Components & Carousels
-- **React Native Reanimated Carousel**: `4.0.3` - Advanced carousel component
-- **Expo Vector Icons**: `15.0.2` - Icon library
+- **React Native Reanimated Carousel**:  - Advanced carousel component
+- **Expo Vector Icons**: - Icon library
 
 ### Security & Storage
-- **Expo Secure Store**: `15.0.7` - Secure storage
-- **React Native Safe Area Context**: `5.6.0` - Safe area handling
+- **Expo Secure Store**: - Secure storage
+- **React Native Safe Area Context**: - Safe area handling
 
 ### Development Tools
 - **Metro**: Build system
@@ -150,7 +150,7 @@ This project implements **Clean Architecture** with **Feature-Based Organization
 
 ### Feature: Categories + Books
 
-#### 🎭 Presentation Layer
+#### Presentation Layer
 ```typescript
 
 useCategoriesPresentation()  // Display logic
@@ -162,7 +162,7 @@ CategoriesScreen.tsx        // Main screen
 AddBookScreen.tsx          // Form screen
 ```
 
-#### 🧠 Domain Layer
+#### Domain Layer
 ```typescript
 
 interface Book {
@@ -178,7 +178,7 @@ ManageCategoriesUseCase     // Category operations
 bookSchema                  // Zod validation schema
 ```
 
-#### 🗄️ Data Layer
+#### Data Layer
 ```typescript
 
 BooksApiClient             // HTTP requests to /api/books
@@ -192,7 +192,7 @@ CategoryMapper           // API ↔ Domain conversion
 CategoriesFactory        // Dependency injection
 ```
 
-### 🔄 Data Flow Example
+### Data Flow Example
 
 ```typescript
 
@@ -209,7 +209,7 @@ await useCase.execute(validatedData);
 await booksApiClient.create(bookData);
 ```
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18+
@@ -244,31 +244,31 @@ pnpm android             # Run on Android
 pnpm web                 # Run on web
 ```
 
-## 📱 Features
+## Features
 
-### 🏠 Home Screen
+### Home Screen
 - **Parallax Carousel**: Featured books display
 - **Category Filter**: Browse by genre
 - **Preview Lists**: Recently added, available, unavailable books
 
-### 📚 Categories Management
+### Categories Management
 - **CRUD Operations**: Create, read, update, delete categories
 - **Book Association**: Link books to categories
 - **Form Validation**: Zod schema validation
 - **Error Handling**: Comprehensive error management
 
-### 🔍 Book Management
+### Book Management
 - **Search & Filter**: Find books by various criteria
 - **Inventory Status**: Available/unavailable tracking
 - **Author Information**: Complete book metadata
 
-### 🎨 Design Features
+### Design Features
 - **Dark/Light Theme**: Automatic theme switching
 - **Responsive Design**: Adapts to different screen sizes
 - **Gesture Support**: Native gesture handling
 - **Smooth Animations**: Reanimated-powered transitions
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Unit Tests
 - **Domain Logic**: Use cases and entities
@@ -285,14 +285,14 @@ pnpm web                 # Run on web
 - **Navigation**: Screen transitions
 - **State Management**: Global state consistency
 
-## 🚀 Deployment
+## Deployment
 
 ### Build Profiles
 - **Development**: Internal testing with debugging
 - **Preview**: Stakeholder review builds
 - **Production**: App store distribution
 
-## 🤝 Contributing
+## Contributing
 
 ### Code Standards
 - **TypeScript**: Strict mode enabled
@@ -300,22 +300,14 @@ pnpm web                 # Run on web
 - **Prettier**: Consistent formatting
 - **Conventional Commits**: Semantic commit messages
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
-
-## 👥 Team
-
-- **Architecture**: Clean Architecture with Feature-Based Organization
-- **UI/UX**: Modern design system with theme support
-- **Development**: React Native + Expo ecosystem
-- **State Management**: Zustand + React Hook Form
 
 ---
 
 <div align="center">
-  <p>Built with ❤️ using React Native and Clean Architecture</p>
   <p>
-    <a href="#-bookstore-app">🔝 Back to top</a>
+    <a href="#-bookstore-app">Back to top</a>
   </p>
 </div>
