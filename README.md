@@ -305,9 +305,3 @@ pnpm web                 # Run on web
 This project is licensed under the MIT License.
 
 ---
-
-<div align="center">
-  <p>
-    <a href="#-bookstore-app">Back to top</a>
-  </p>
-</div>
