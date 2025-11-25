@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { Category } from '@/src/features/Categories/domain/entities/Category';
-import { CategoriesFactory } from '@/src/features/Categories/data/factories/CategoriesFactory';
-import { ManageCategoriesUseCase } from '@/src/features/Categories/domain/usecases/ManageCategoriesUseCase';
+import { Category } from '@/src/features/categories/domain/entities/Category';
+import { CategoriesFactory } from '@/src/features/categories/data/factories/CategoriesFactory';
+import { ManageCategoriesUseCase } from '@/src/features/categories/domain/usecases/ManageCategoriesUseCase';
 
 interface CategoriesState {
   categories: Category[];

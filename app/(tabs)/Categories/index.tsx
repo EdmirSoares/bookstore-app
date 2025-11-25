@@ -1,4 +1,4 @@
-import CategoriesScreen from "@/src/features/Categories/presentation/CategoriesScreen";
+import CategoriesScreen from "@/src/features/categories/presentation/CategoriesScreen";
 
 
 export default CategoriesScreen;

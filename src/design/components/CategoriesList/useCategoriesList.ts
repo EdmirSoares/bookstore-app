@@ -1,4 +1,4 @@
-import { useCategoriesPresentation } from '@/src/features/Categories/presentation/hooks/useCategoriesPresentation';
+import { useCategoriesPresentation } from '@/src/features/categories/presentation/hooks/useCategoriesPresentation';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
 export interface CategoriesListItem {
     id: number;
