@@ -11,9 +11,6 @@ export interface UseImagePickerReturn {
   isLoading: boolean;
 }
 
-/**
- * Hook for picking images using Expo Image Picker with proper TypeScript types
- */
 export const useImagePicker = (): UseImagePickerReturn => {
   const [selectedImage, setSelectedImage] = useState<ExpoFileUpload | null>(null);
   const [isLoading, setIsLoading] = useState(false);
