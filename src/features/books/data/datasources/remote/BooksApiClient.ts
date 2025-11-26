@@ -1,12 +1,15 @@
 import { HttpClient } from '@/src/shared/services/Http/HttpClient';
 import { BookApiModel } from '../../models/BookApiModel';
 import { HttpClientFactory } from '@/src/shared/services/Http/HttpClientFactory';
+import { ExpoFileUpload, createFormDataFile } from '@/src/shared/types/file-upload';
 
 export class BooksApiClient {
     private httpClient: HttpClient;
+    private uploadClient: HttpClient;
 
     constructor() {
         this.httpClient = HttpClientFactory.create();
+        this.uploadClient = HttpClientFactory.createUploadClient();
     }
 
     async getBooks(): Promise<BookApiModel[]> {
@@ -43,5 +46,19 @@ export class BooksApiClient {
 
     async getBooksByCategory(categoryId: string): Promise<BookApiModel[]> {
         return this.httpClient.get<BookApiModel[]>(`/books/category/${categoryId}`);
+    }
+
+    async uploadBookCover(bookId: string, file: ExpoFileUpload): Promise<void> {
+        const formData = new FormData();
+
+        const fileToUpload = createFormDataFile(file, `book-cover-${bookId}.jpg`);
+
+        formData.append('coverImage', fileToUpload as any);
+
+        return this.uploadClient.post<void>(`/api/books/${bookId}/cover`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     }
 }

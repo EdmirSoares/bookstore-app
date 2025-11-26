@@ -2,6 +2,7 @@ import { Book } from '../../domain/entities/Book';
 import { BookRepository } from '../../domain/repositories/BookRepository';
 import { BooksApiClient } from '../datasources/remote/BooksApiClient';
 import { BookMapper } from '../mappers/BookMapper';
+import { ExpoFileUpload } from '@/src/shared/types/file-upload';
 
 export class BookRepositoryImpl implements BookRepository {
     constructor(
@@ -37,5 +38,9 @@ export class BookRepositoryImpl implements BookRepository {
 
     async deleteBook(id: string): Promise<void> {
         await this.apiClient.deleteBook(id);
+    }
+
+    async uploadBookCover(bookId: string, coverImage: ExpoFileUpload): Promise<void> {
+        await this.apiClient.uploadBookCover(bookId, coverImage);
     }
 }

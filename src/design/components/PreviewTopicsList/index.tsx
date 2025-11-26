@@ -14,7 +14,7 @@ import AlertIcon from '@/src/design/assets/common/icons/exclamation-icon.svg';
 import { Book } from '@/src/features/books/domain/entities/Book';
 import { HttpClientFactory } from '@/src/shared/services/Http/HttpClientFactory';
 
-const BASE_URL_UPLOADS = HttpClientFactory.getBaseUrlUploads();
+const BASE_URL_UPLOADS = HttpClientFactory.getUploadBaseUrl();
 
 const RenderItem = ({ item }: { item: Book }) => {
     const { colors, styles: createStyles } = useTheme();

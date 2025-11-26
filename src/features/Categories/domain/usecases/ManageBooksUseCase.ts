@@ -1,5 +1,6 @@
 import { Book } from '../../../books/domain/entities/Book';
 import { BookRepository } from '../../../books/domain/repositories/BookRepository';
+import { ExpoFileUpload } from '@/src/shared/types/file-upload';
 
 export class ManageBooksUseCase {
     constructor(private bookRepository: BookRepository) {}
@@ -10,6 +11,10 @@ export class ManageBooksUseCase {
 
     async createBook(bookData: Omit<Book, 'id'>): Promise<Book> {
         return await this.bookRepository.createBook(bookData);
+    }
+
+    async uploadBookCover(bookId: string, coverImage: ExpoFileUpload): Promise<void> {
+        return await this.bookRepository.uploadBookCover(bookId, coverImage);
     }
 
     async updateBook(id: string, bookData: Partial<Book>): Promise<Book> {
