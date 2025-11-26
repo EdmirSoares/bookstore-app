@@ -33,14 +33,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.apps-bookstore.bookstoreapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.apps_popcity.bookstoreapp"
+      "package": "com.apps_bookstore.bookstoreapp"
     }
   }
 }
