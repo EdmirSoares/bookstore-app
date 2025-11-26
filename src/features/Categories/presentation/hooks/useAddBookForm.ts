@@ -4,13 +4,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert } from 'react-native';
 import { useCategoriesPresentation } from './useCategoriesPresentation';
+import { BookCoverFormData, bookCoverSchema } from '../../domain/forms/AddBookCoverFormSchema';
 
-/**
- * Hook específico para o formulário de adicionar livro
- * Gerencia apenas a lógica de apresentação do formulário
- */
 export const useAddBookForm = ({ onClose }: { onClose: () => void }) => {
-    const { createBook } = useCategoriesPresentation();
+    const { createBook, uploadCoverImage } = useCategoriesPresentation();
 
     const {
         control,
@@ -31,17 +28,39 @@ export const useAddBookForm = ({ onClose }: { onClose: () => void }) => {
         },
     });
 
+    const {
+        control: coverControl,
+        handleSubmit: handleCoverSubmit,
+        formState: { errors: coverErrors, isSubmitting: isCoverSubmitting },
+        reset: resetCover,
+        getValues: getCoverValues,
+    } = useForm<BookCoverFormData>({
+        resolver: zodResolver(bookCoverSchema),
+        defaultValues: {
+            coverImage: undefined,
+        },
+    });
+
     const onSubmit = async (data: BookFormData) => {
         try {
-            console.log('Creating book:', data);
+            console.info('Creating book:', data);
 
             const response = await createBook(data);
+            console.info('Book created:', response);
+
+            const coverImage = getCoverValues().coverImage;
+            if (coverImage) {
+                console.info('Uploading cover image for book:', response.id);
+                await uploadCoverImage(response.id.toString(), coverImage);
+                console.info('Cover image uploaded successfully');
+            }
 
             Alert.alert('Sucesso', 'Livro cadastrado com sucesso!', [
                 {
                     text: 'OK',
                     onPress: () => {
                         reset();
+                        resetCover();
                         onClose();
                     },
                 },
@@ -67,5 +86,9 @@ export const useAddBookForm = ({ onClose }: { onClose: () => void }) => {
         handleSubmit,
         handleReset,
         onSubmit,
+        coverControl,
+        coverErrors,
+        isCoverSubmitting,
+        resetCover,
     };
 };

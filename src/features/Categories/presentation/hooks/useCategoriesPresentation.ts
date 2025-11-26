@@ -4,6 +4,7 @@ import { Book } from '../../../books/domain/entities/Book';
 import { ManageBooksUseCase } from '../../domain/usecases/ManageBooksUseCase';
 import { CategoriesFactory } from '../../data/factories/CategoriesFactory';
 import { useCategoriesStore } from '@/src/shared/stores/categoriesStore';
+import { ExpoFileUpload } from '@/src/shared/types/file-upload';
 
 export const useCategoriesPresentation = () => {
     const [books, setBooks] = useState<Book[]>([]);
@@ -14,11 +15,11 @@ export const useCategoriesPresentation = () => {
 
     const currentFilter = useCategoriesStore((state) => state.currentFilter);
 
-    const { 
-        categories, 
-        loading: categoriesLoading, 
-        error: categoriesError, 
-        fetchCategories 
+    const {
+        categories,
+        loading: categoriesLoading,
+        error: categoriesError,
+        fetchCategories,
     } = useCategoriesStore();
 
     const manageBooksUseCase = useMemo(() => {
@@ -40,6 +41,24 @@ export const useCategoriesPresentation = () => {
             setLoading(false);
         }
     }, [manageBooksUseCase]);
+
+    const uploadCoverImage = useCallback(
+        async (bookId: string, coverImage: ExpoFileUpload) => {
+            try {
+                setLoading(true);
+                setError(null);
+                await manageBooksUseCase.uploadBookCover(bookId, coverImage);
+            } catch (err) {
+                const errorMessage =
+                    err instanceof Error ? err.message : 'Failed to upload cover image';
+                setError(errorMessage);
+                throw err;
+            } finally {
+                setLoading(false);
+            }
+        },
+        [manageBooksUseCase]
+    );
 
     const createBook = useCallback(
         async (newBook: Omit<Book, 'id'>) => {
@@ -129,18 +148,16 @@ export const useCategoriesPresentation = () => {
         fetchBooks();
     }, [fetchBooks]);
 
-
     useEffect(() => {
-            
-            const filtered = books.filter((book) => {
-                if (!currentFilter || currentFilter.key === "ALL") {
-                    return true;
-                }
-                return book.gender === currentFilter.name;
-            });
-            
-            setFilteredBooks(filtered);
-        }, [currentFilter, books]);
+        const filtered = books.filter((book) => {
+            if (!currentFilter || currentFilter.key === 'ALL') {
+                return true;
+            }
+            return book.gender === currentFilter.name;
+        });
+
+        setFilteredBooks(filtered);
+    }, [currentFilter, books]);
 
     return {
         filteredBooks,
@@ -148,6 +165,7 @@ export const useCategoriesPresentation = () => {
         error,
         refetch,
         createBook,
+        uploadCoverImage,
         updateBook,
         deleteBook,
         getBooksByCategory,

@@ -9,6 +9,8 @@ import {
     TextInput,
     Switch,
     Alert,
+    Button,
+    Image,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +21,7 @@ import { useTheme } from '../../../shared/hooks/useTheme';
 import { HStack } from '../../../design/components/common/HStack';
 import { VStack } from '../../../design/components/common/VStack';
 import { useAddBookForm } from './hooks/useAddBookForm';
+import { useImagePicker } from '@/src/shared/hooks/useImagePicker';
 
 interface AddBookScreenProps {
     onClose: () => void;
@@ -26,10 +29,12 @@ interface AddBookScreenProps {
 
 const AddBookScreen = ({ onClose }: AddBookScreenProps) => {
     const { colors, styles: createStyles } = useTheme();
-    const { control, errors, isSubmitting, handleSubmit, handleReset, onSubmit } = useAddBookForm({
-        onClose,
-    });
+    const { control, errors, isSubmitting, handleSubmit, handleReset, onSubmit, coverControl } =
+        useAddBookForm({
+            onClose,
+        });
 
+    const { selectedImage, pickImage, takePhoto, clearImage } = useImagePicker();
     const formStyles = useMemo(
         () =>
             StyleSheet.create({
@@ -129,9 +134,18 @@ const AddBookScreen = ({ onClose }: AddBookScreenProps) => {
                     borderColor: colors.primary['400'] + '60',
                     backgroundColor: 'transparent',
                 },
+                neutralButton: {
+                    backgroundColor: colors.neutral['700'] + '40',
+                },
                 buttonText: {
                     fontSize: 14,
                     fontFamily: 'PoppinsBold',
+                },
+                imageDisplay: {
+                    borderRadius: 8,
+                    overflow: 'hidden',
+                    justifyContent: 'center',
+                    backgroundColor: colors.neutral['700'] + '10',
                 },
             }),
         [colors]
@@ -360,7 +374,57 @@ const AddBookScreen = ({ onClose }: AddBookScreenProps) => {
                         )}
                     </View>
 
-                    <HStack style={formStyles.buttonContainer}>
+                    <Controller
+                        control={coverControl}
+                        name="coverImage"
+                        render={({ field: { onChange } }) => (
+                            <VStack>
+                                <Text style={[formStyles.subtitle, { marginTop: 20 }]}>
+                                    Capa do Livro
+                                </Text>
+                                <HStack style={formStyles.buttonContainer}>
+                                    <TouchableOpacity
+                                        style={[formStyles.button, formStyles.neutralButton]}
+                                        onPress={async () => {
+                                            await pickImage();
+                                            if (selectedImage) {
+                                                onChange(selectedImage);
+                                            }
+                                        }}>
+                                        <Feather
+                                            name="image"
+                                            size={22}
+                                            color={colors.primary['400']}
+                                        />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[formStyles.button, formStyles.neutralButton]}
+                                        onPress={async () => {
+                                            await takePhoto();
+                                            if (selectedImage) {
+                                                onChange(selectedImage);
+                                            }
+                                        }}>
+                                        <Feather
+                                            name="camera"
+                                            size={22}
+                                            color={colors.primary['400']}
+                                        />
+                                    </TouchableOpacity>
+                                </HStack>
+                                {selectedImage && (
+                                    <HStack style={formStyles.imageDisplay}>
+                                    <Image
+                                        source={{ uri: selectedImage.uri }}
+                                        style={{ width: 200, height: 266 }}
+                                    />
+                                    </HStack>
+                                )}
+                            </VStack>
+                        )}
+                    />
+
+                    <HStack style={[formStyles.buttonContainer]}>
                         <TouchableOpacity
                             onPress={handleReset}
                             style={[formStyles.button, formStyles.secondaryButton]}
